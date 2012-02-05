@@ -1,0 +1,4 @@
+[Right Click]
+Passar a requisicao do botao direito para dentro do Flash container.
+
+Usar ExternalInterface

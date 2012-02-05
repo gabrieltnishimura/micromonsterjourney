@@ -1,0 +1,38 @@
+Titulo: micro monster journey
+Tipo de jogo: rpg/aventura
+
+--- game design data ---
+Tudo aqui fala sobre funcionamento, mecanica, e estetica do jogo. Interacoes do jogador com 
+outros monstros, npcs, tesouros, tiles, etc. Distribuicao dos tiles, caracterizacao das cidades,
+dungeons, sidequests. E' preciso fazer o game design ficar solido para auxiliar a programacao e 
+a arte. Um bom game design deixa o programa organizado, e a arte e as musicas condizentes.
+
+Personagem principal e' um monstro.
+Perspectiva top-down (nao totalmente) estilo zelda.
+Sem condicao de vitoria.
+movimento 4 dir
+
+
+
+
+
+--- technical data ---
+Aqui serao colocados dados tecnicos sobre o jogo.
+Dimensao da tela, do personagem, dos tiles, linguagens, 
+frameworks, bibliotecas, etc.
+
+Language: Flash ActionScript 3
+Library: Flixel 2.50
+
+Game res.:240x160
+Personagem principal: 16x16 pixels
+Tiles res.: 16x16 pixels
+Movemento grade 16x16
+
+
+-- money data --
+Dois metodos foram selecionados
+para a monetarizacao do jogo:
+-> microtransacoes
+-> venda para um portal (pelo fgl)
+

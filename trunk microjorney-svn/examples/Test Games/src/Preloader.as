@@ -8,7 +8,7 @@ package
 		{
 			className = "Main";
 			super();
-			minDisplayTime = 30;
+			minDisplayTime = 0;
 		}
 	}
 }

@@ -1,0 +1,1 @@
+quando fizer os tiles, tentar colocar os tiles com collision no final.

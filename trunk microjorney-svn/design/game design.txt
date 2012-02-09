@@ -8,14 +8,37 @@ dungeons, sidequests. E' preciso fazer o game design ficar solido para auxiliar 
 a arte. Um bom game design deixa o programa organizado, e a arte e as musicas condizentes.
 
 Personagem principal e' um monstro.
-Perspectiva top-down (nao totalmente) estilo zelda.
-Sem condicao de vitoria.
-movimento 4 dir
+
+Condicao de vitoria: Termino dos tres dungeons.
+Movimentacao em quatro direcoes.
+
+Main sai de casa para fazer sua jornada.
+Encontra o primeiro dungeon, faz o primeiro dungeon,
+sai do primeiro dungeon, encontra o segundo dungeon,
+e isso ate o terceiro dungeon, que finaliza o jogo.
+
+A ilha onde o main estara tem tres dungeons escolhidos 
+aleatoriamente pelo sistema no inicio do jogo. Os bosses
+de cada dungeon tambem sao escolhidos aleatoriamente
+(no total, sao 6 possibilidades de dungeons com bosses
+diferentes). 
+
+Cada dungeon pode ter uma parte com um obstaculo 
+que so e' possivel passar com um item especial.
 
 
+--- art data ---
+[DUNGEONS] Perspectiva top-down estilo zelda.
+[CUTSCENES] Perspectiva parte platformer parte final fantasy.
 
+[AREAS] vulcan, ice mountain,  desert, swamp and sky.
+[BOSSES] 
+			(1) giant scorpion (vulcan, desert), 
+			(2) dragon (vulcan, sky), 
+			(3) giant worm (desert, swamp), 
+			(4) yeti (ice mountain) 
 
-
+			
 --- technical data ---
 Aqui serao colocados dados tecnicos sobre o jogo.
 Dimensao da tela, do personagem, dos tiles, linguagens, 
@@ -27,7 +50,7 @@ Library: Flixel 2.50
 Game res.:240x160
 Personagem principal: 16x16 pixels
 Tiles res.: 16x16 pixels
-Movemento grade 16x16
+Movemento grade 8x8
 
 
 -- money data --

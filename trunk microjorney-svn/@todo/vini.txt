@@ -1,1 +1,8 @@
-quando fizer os tiles, tentar colocar os tiles com collision no final.
+[Tile Map - Collision] (en route)
+Quando fizer os tiles, tentar colocar os tiles com collision no final.
+
+[Cutscene] (en route)
+Vai ser em perspectiva de platformer, em que o dungeon e' visivel ao fundo
+
+[Scan Caderno 02/08] (en route)
+Escanear a pagina de game design do caderno amarelo.

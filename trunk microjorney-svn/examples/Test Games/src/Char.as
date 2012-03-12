@@ -8,6 +8,7 @@ package
 	 */
 	public class Char extends FlxExtendedSprite
 	{
+		private var _speed:Number = 100;
 		public var Sprite:FlxExtendedSprite;
 		
 		public function Char(x:int = 0, y:int = 0)
@@ -51,6 +52,7 @@ package
 			}
 			this.x = deltaX;
 			this.y = deltaY;
+			this.SmoothMove();
 			//if (FlxG.keys.justReleased("LEFT") || FlxG.keys.justReleased("UP") || FlxG.keys.justReleased("RIGHT") || FlxG.keys.justReleased("DOWN")) {
 				//trace(deltaY);
 			//FlxVelocity.moveTowardsPoint(this, new FlxPoint(deltaX, deltaY), 100);
@@ -62,12 +64,64 @@ package
 			Sprite.makeGraphic(16, 16, 0xFF0000FF);
 		}
 		
-		override public function update():void
+		private function SmoothMove():void
 		{
-			Sprite.x = this.x;
-			Sprite.y = this.y;
-			super.update();
+			if (Sprite.x < this.x)
+			{
+				Sprite.velocity.x = _speed;
+				//if (Math.abs(Sprite.x - this.x)<1)
+				//{
+					//Sprite.velocity.x = 0;
+					//Sprite.x = this.x;
+				//}
+			}
+			if (Sprite.x > this.x)
+			{
+				Sprite.velocity.x = -_speed;
+				//if (Math.abs(Sprite.x - this.x)<1)
+				//{
+					//Sprite.velocity.x = 0;
+					//Sprite.x = this.x;
+				//}
+			}
+			if (Sprite.y < this.y)
+			{
+				Sprite.velocity.y = _speed;
+				//if (Math.abs(Sprite.y - this.y)<1)
+				//{
+					//Sprite.velocity.y = 0;
+					//Sprite.y = this.y;
+				//}
+			}
+			if (Sprite.y > this.y)
+			{
+				Sprite.velocity.y = -_speed;
+				//if (Math.abs(Sprite.y - this.y)<1)
+				//{
+					//Sprite.velocity.y = 0;
+					//Sprite.y = this.y;
+				//}
+			}
+			if (Math.abs(Sprite.x - this.x)<1)
+			{
+				Sprite.velocity.x = 0;
+				Sprite.x = this.x;
+			}
+			if (Math.abs(Sprite.y - this.y)<1)
+			{
+				Sprite.velocity.y = 0;
+				Sprite.y = this.y;
+			}
+			trace (this.x);
+			trace(Sprite.x);
 		}
+		
+		//override public function update():void
+		//{
+			//Sprite.x = this.x;
+			//Sprite.y = this.y;
+			//super.update();
+		//}
 		
 	}
 

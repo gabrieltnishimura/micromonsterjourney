@@ -51,14 +51,13 @@ package
 			FlxG.addCamera(camera);
 			//super.create();
 			FlxG.mouse.show();
-			trace (ship.y);
 		}
 		
 		override public function update():void
 		{
 			super.update();
 			//var i:int;
-			ship.Move(8, 8);
+			ship.move(8, 8);
 			//if (ship.x > 2 && ship.x<4) i = 2;
 			map.ChangeMap(ship, camera);
 			/*var lol:FlxTileblock = new FlxTileblock(210, 65, 30, 30);

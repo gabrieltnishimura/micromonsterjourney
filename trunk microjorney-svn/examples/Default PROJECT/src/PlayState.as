@@ -5,11 +5,8 @@ package
 	
 	public class PlayState extends FlxState
 	{
-		private var player:FlxSprite;
+		private var player:Char;
 		private var scene:MainMap;
-		// variables to snap hero movement
-		private var inicX:Number;  		private var finalX:Number;
-		private var inicY:Number;  		private var finalY:Number;
 		
 		/**
 		 * @todo [MODULAR]
@@ -23,7 +20,8 @@ package
 		{
 			
 			/* hero instance here */
-			player = new FlxExtendedSprite(32, 32, AssetsRegistry.hero);
+				//player = new FlxExtendedSprite(32, 32, AssetsRegistry.hero);
+			player = new Char(32, 32);
 			/* map instance here */
 			scene = new MainMap;
 			
@@ -39,32 +37,9 @@ package
 		override public function update():void
 		{
 			super.update();	
-			
-			if (FlxG.keys.RIGHT) { /*snapped movement*/
-				inicX = player.x;
-				player.x += 1;
-				finalX = player.x;
-			FlxG.collide(player, scene.map);
-			}
-			if (FlxG.keys.LEFT) { /*snapped movement*/
-				inicX = player.x;
-				player.x -= 1;
-				finalX = player.x;
-			FlxG.collide(player, scene.map);
-			}
-
-			if (FlxG.keys.UP) { /*snapped movement*/
-				inicY = player.y;
-				player.y -= 1;
-				finalY = player.y;
-			FlxG.collide(player, scene.map);
-			}
-			if (FlxG.keys.DOWN) { /*snapped movement*/
-				inicY = player.y;
-				player.y += 1;
-				finalY = player.y;
-			FlxG.collide(player, scene.map);
-			}
+			// Snapped Movement of 8x8 HERE!
+			player.move(8, 8);
+			FlxG.collide(player, scene);
 		}
 		override public function destroy():void
 		{

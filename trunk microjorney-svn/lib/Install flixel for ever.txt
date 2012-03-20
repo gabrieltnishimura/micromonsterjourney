@@ -1,0 +1,4 @@
+To install Flixel with PowerTools for ever in your computer, so that there's no need to add it to the 
+build path of every of your programs, you'll only need to
+
+add flixel folder to C:\Program Files\FlashDevelop\Library\AS3\classes\org\

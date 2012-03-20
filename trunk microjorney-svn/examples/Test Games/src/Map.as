@@ -121,8 +121,6 @@ package
 					x -= 1;
 					Char.x = GetRight();
 					camera.focusOn(GetCenter());
-					trace(x, y);
-					trace(Char.x, Char.y);
 					}
 					break;
 				
@@ -132,8 +130,6 @@ package
 					x += 1;
 					Char.x = GetLeft();
 					camera.focusOn(GetCenter());
-					trace(x, y);
-					trace(Char.x, Char.y);
 					}
 					break;
 				case 3://top
@@ -142,8 +138,6 @@ package
 					y -= 1;
 					Char.y = GetBot();
 					camera.focusOn(GetCenter());
-					trace(x, y);
-					trace(Char.x, Char.y);
 					}
 					break;
 				
@@ -153,8 +147,6 @@ package
 					y += 1;
 					Char.y = GetTop();
 					camera.focusOn(GetCenter());
-					trace(x, y);
-					trace(Char.x, Char.y);
 					}
 					break;
 					
@@ -183,24 +175,27 @@ package
 			}
 			return i;
 		}
-				
+			
+		/**
+		 * Method that creates a invisible wall, so that when the 
+		 * player surpasses it, the map is changed.
+		 * @return result Invisible Wall Dimensions
+		 */
 		public function CreateInvisiWall(thickness:uint = 2):FlxGroup
 		{
 			//Completamente ligado à classe custom Map
 			//Um pouco adaptado da função flxcamera.createCameraWall()
-			var left:FlxTileblock;
-			var right:FlxTileblock;
-			var top:FlxTileblock;
-			var bottom:FlxTileblock;
+			var left:FlxTileblock; 		var right:FlxTileblock;
+			var top:FlxTileblock;		var bottom:FlxTileblock;
+			
 			left = new FlxTileblock(GetX(), GetY() + thickness, thickness, mapheight - (thickness * 2));
 			right = new FlxTileblock(GetX() + mapwidth - thickness, GetY() + thickness, thickness, mapheight - (thickness * 2));
 			top = new FlxTileblock(GetX(), GetY(), mapwidth, thickness);
 			bottom = new FlxTileblock(GetX(), GetY() + mapheight - thickness, mapwidth, thickness);
 			var result:FlxGroup = new FlxGroup(4);
-			result.add(left);
-			result.add(right);
-			result.add(top);
-			result.add(bottom);
+			
+			result.add(left); 		result.add(right);
+			result.add(top); 		result.add(bottom);
 			return result;
 		}
 		

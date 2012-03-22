@@ -1,30 +1,56 @@
 package  
 {
 	import org.flixel.*;
+	import org.flixel.plugin.photonstorm.*;
 
 	public class MainMap extends FlxGroup
 	{
 		public var map:FlxTilemap;
+		public var pixel:FlxSprite;
+		public var mapHeight:int;
+		public var mapWidth:int;
 		
 		public function MainMap() 
 		{
 			super(1);
 			// get map from assets registry class!
 			map = new FlxTilemap();
-			map.loadMap(new AssetsRegistry.tilemapCSV, AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 16);
+			map.loadMap(new AssetsRegistry.tilemapFinalCSV, AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 14);
 			
-			/* Map borders: the character cannot collide with those. */
-			map.setTileProperties(22, FlxObject.RIGHT, null, null, 1);
-			map.setTileProperties(23, FlxObject.LEFT, null, null, 1);
-			map.setTileProperties(26, FlxObject.FLOOR , null, null, 1);
-			map.setTileProperties(27, FlxObject.UP, null, null, 1);
+			//game starts from the first room! at (0,0)
+			FlxG.camera.setBounds(0, 0, 240, 320);
 			
-			FlxG.camera.setBounds(0, 0, 240, 160);
+			//pixel that moves the camera though rooms!
+			pixel = new FlxSprite(120, 80, AssetsRegistry.pixel);
+			pixel.visible = false;
+			
 			FlxG.worldBounds = new FlxRect(0, 0, 240, 160);
+			mapHeight = FlxG.worldBounds.height;
+			mapWidth = FlxG.worldBounds.width;
 			
 			add(map);
 		}
 		
+		/**
+		 * Moves camera to next room, depending on the direction
+		 * received as parameter.
+		 * @param	direction Direction of the next room.
+		 */
+		public function changeWorldBound(direction:String):void {
+			//Camera follows pixel Sprite so that when it moves, the camera moves along with it
+			FlxG.camera.follow(pixel);
+			
+			if(direction=="down") {
+				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y+mapHeight, mapWidth, mapHeight);
+			}
+			
+			if(direction=="up") {
+				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y-mapHeight, mapWidth, mapHeight);
+			}
+			
+			FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y + mapHeight/2), 200);
+		
+		}		
 	}
 
 }

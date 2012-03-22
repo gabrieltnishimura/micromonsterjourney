@@ -7,9 +7,14 @@ package
 	public class AssetsRegistry 
 	{
 		//	TileMap/CSV File
-		[Embed(source = "map/mmj_tilemap2.csv", mimeType = "application/octet-stream")]public static var tilemapCSV:Class;
-		[Embed(source = "map/mmj_tilemap.PNG")] public static var tilemapPNG:Class;
-		[Embed(source = "map/player.png")] public static var hero:Class;
+		[Embed(source = "assets/mmj_tilemap.PNG")] public static var tilemapPNG:Class;
+		[Embed(source = "assets/mmj_tilemap_merged.csv", mimeType = "application/octet-stream")] public static var tilemapFinalCSV:Class;
+		
+		// PlayerPNG
+		[Embed(source = "assets/player.png")] public static var hero:Class;
+		// pixel for map smooth transition
+		[Embed(source = "assets/pixel.png")] public static var pixel:Class;
+		
 		public function AssetsRegistry() 
 		{
 			

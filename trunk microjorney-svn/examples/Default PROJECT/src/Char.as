@@ -3,73 +3,95 @@ package
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	/**
-	 * ...
-	 * @author CKoji
+	 * Class that represents the main character of the game.
+	 * It has 2 sprites: one for the snapped movement, and another for the smooth movement.
 	 */
 	public class Char extends FlxExtendedSprite
 	{
-		private var _speed:Number = 100;
+		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
 		
+		/**
+		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
+		 * @param	inicX Inicial x position of the sprite of the character. Default 0.
+		 * @param	inicY Inicial y position of the sprite of the character. Default 0.
+		 */
 		public function Char(inicX:int = 0, inicY:int = 0)
 		{
+			Sprite = new FlxExtendedSprite(inicX, inicY, AssetsRegistry.hero);
 			super(inicX, inicY);
-			this.visible = false;
-			Sprite = new FlxExtendedSprite(inicX, inicX);
+			this.visible = false; // the sprite of character is invisible, as is is only necessary to snap.
 		}
 		
+		/**
+		 * Function that moves the FlxExtendedSprite Char in a grid of snapX*snapY.
+		 * Only works when smooth_move() is called right after it.
+		 * @param	snapX How many pixels will it snap in the x axis.
+		 * @param	snapY How many pixels will it snap in the y axis.
+		 */
 		public function move(snapX:int, snapY:int):void
 		{
 			var deltaX:int = this.x;
 			var deltaY:int = this.y;
 			
-			if (FlxG.keys.justPressed("LEFT"))
+			if (FlxG.keys.pressed("LEFT"))
 			{
-			deltaX = this.x - snapX;
-			deltaY = this.y;
+				if (this.x == Sprite.x)
+				{
+					deltaX = this.x - snapX;
+					deltaY = this.y;
+				}
 			}
-			if (FlxG.keys.justPressed("UP"))
+			else if (FlxG.keys.pressed("UP"))
 			{
-			deltaX = this.x;
-			deltaY = this.y - snapY;
+				if (this.y == Sprite.y)
+				{
+					deltaX = this.x;
+					deltaY = this.y - snapY;
+				}
 			}
-			if (FlxG.keys.justPressed("RIGHT"))
+			else if (FlxG.keys.pressed("RIGHT"))
 			{
-			deltaX = this.x + snapX;
-			deltaY = this.y;
+				if (this.x == Sprite.x)
+				{
+					deltaX = this.x + snapX;
+					deltaY = this.y;
+				}
 			}
-			if (FlxG.keys.justPressed("DOWN"))
+			else if (FlxG.keys.pressed("DOWN"))
 			{
-			deltaX = this.x;
-			deltaY = this.y + snapY;
+				if (this.y == Sprite.y)
+				{				
+					deltaX = this.x;
+					deltaY = this.y + snapY;
+				}
 			}
 			this.x = deltaX;
 			this.y = deltaY;
-			this.SmoothMove();
 		}
 		
-		public function CreateChar():void
-		{
-			Sprite.makeGraphic(16, 16, 0xFF0000FF);
-		}
-		
-		private function SmoothMove(direction:int):void
+		/**
+		 * Function that smoothly moves the visible sprite
+		 * to where the invisible sprite was placed.
+		 * @param	speed Movement speed of the visible sprite. Default is 75.
+		 */
+		public function smooth_move(speed:int = 75):void
 		{
 			if (Sprite.x < this.x)
 			{
-				Sprite.velocity.x = _speed;
+				Sprite.velocity.x = speed;
 			}
 			if (Sprite.x > this.x)
 			{
-				Sprite.velocity.x = -_speed;
+				Sprite.velocity.x = -speed;
 			}
 			if (Sprite.y < this.y)
 			{
-				Sprite.velocity.y = _speed;
+				Sprite.velocity.y = speed;
 			}
 			if (Sprite.y > this.y)
 			{
-				Sprite.velocity.y = -_speed;
+				Sprite.velocity.y = -speed;
 			}
 			if (Math.abs(Sprite.x - this.x)<1)
 			{

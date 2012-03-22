@@ -7,6 +7,8 @@ package
 	{
 		private var player:Char;
 		private var scene:MainMap;
+		private var button:FlxButton;
+		public var follow:int;
 		
 		/**
 		 * @todo [MODULAR]
@@ -20,17 +22,24 @@ package
 		{
 			
 			/* hero instance here */
-				//player = new FlxExtendedSprite(32, 32, AssetsRegistry.hero);
-			player = new Char(32, 32);
+				player = new Char(32, 32);
 			/* map instance here */
-			scene = new MainMap;
-			
+				scene = new MainMap;				
+				
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
-			FlxG.watch(player.velocity, "x", "vx");
-			FlxG.watch(player.velocity, "y", "vy");
-
+			FlxG.watch(player.Sprite, "x", "X Position");
+			FlxG.watch(player.Sprite, "y", "Y Position");
+				
+			FlxG.watch(scene.pixel, "x", "X Position");
+			FlxG.watch(scene.pixel, "y", "Y Position");
+		
+			// adding entitiees to the screen
 			add(scene);
+			add(scene.pixel)
+			add(button);
 			add(player);
+			add(player.Sprite);
+			FlxG.mouse.show();
 		}
 		
 		/* bad processing here*/
@@ -38,8 +47,28 @@ package
 		{
 			super.update();	
 			// Snapped Movement of 8x8 HERE!
-			player.move(8, 8);
-			FlxG.collide(player, scene);
+			if (scene.pixel.velocity.x ==0 && scene.pixel.velocity.y == 0) {
+				player.move(8, 8);
+				FlxG.collide(player, scene);
+				player.smooth_move();
+			}
+			else { player.Sprite.velocity.x = 0; player.Sprite.velocity.y = 0; }
+			
+			if ((scene.pixel.velocity.y > 0 && scene.pixel.y > FlxG.worldBounds.y + 80) || 
+				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y+80)) {
+				scene.pixel.velocity.y = 0; scene.pixel.y = FlxG.worldBounds.y + 80;
+			}
+			if ((scene.pixel.velocity.x > 0 && scene.pixel.x > FlxG.worldBounds.x + 120) ||
+				(scene.pixel.velocity.x < 0 && scene.pixel.x < FlxG.worldBounds.x+120)) {
+				scene.pixel.velocity.x = 0; scene.pixel.x = FlxG.worldBounds.x + 120;
+			}
+		
+				if (player.Sprite.y >= FlxG.worldBounds.y + 160) {
+					scene.changeWorldBound("down");
+				}	
+				if (player.Sprite.y < FlxG.worldBounds.y){
+					scene.changeWorldBound("up");
+				}
 		}
 		override public function destroy():void
 		{

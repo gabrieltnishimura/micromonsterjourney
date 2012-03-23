@@ -18,7 +18,7 @@ package
 		 */
 		public function Char(inicX:int = 0, inicY:int = 0)
 		{
-			Sprite = new FlxExtendedSprite(inicX, inicY, AssetsRegistry.hero);
+			Sprite = new FlxExtendedSprite(inicX, inicY, AssetsRegistry.playerUP);
 			super(inicX, inicY);
 			this.visible = false; // the sprite of character is invisible, as is is only necessary to snap.
 		}
@@ -38,6 +38,7 @@ package
 			{
 				if (this.x == Sprite.x)
 				{
+					Sprite.loadGraphic(AssetsRegistry.playerLEFT, false, false, 16, 16);
 					deltaX = this.x - snapX;
 					deltaY = this.y;
 				}
@@ -46,6 +47,7 @@ package
 			{
 				if (this.y == Sprite.y)
 				{
+					Sprite.loadGraphic(AssetsRegistry.playerUP, false, false, 16, 16);
 					deltaX = this.x;
 					deltaY = this.y - snapY;
 				}
@@ -54,6 +56,7 @@ package
 			{
 				if (this.x == Sprite.x)
 				{
+					Sprite.loadGraphic(AssetsRegistry.playerRIGHT, false, false, 16, 16);
 					deltaX = this.x + snapX;
 					deltaY = this.y;
 				}
@@ -61,7 +64,8 @@ package
 			else if (FlxG.keys.pressed("DOWN"))
 			{
 				if (this.y == Sprite.y)
-				{				
+				{
+					Sprite.loadGraphic(AssetsRegistry.playerDOWN, false, false, 16, 16);
 					deltaX = this.x;
 					deltaY = this.y + snapY;
 				}
@@ -104,7 +108,5 @@ package
 				Sprite.y = this.y;
 			}
 		}
-		
 	}
-
 }

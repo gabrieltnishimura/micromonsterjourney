@@ -12,6 +12,12 @@ package
 		
 		// PlayerPNG
 		[Embed(source = "assets/player.png")] public static var hero:Class;
+		// Player facing
+		[Embed(source = "assets/hero/playerDOWN.png")] public static var playerDOWN:Class;
+		[Embed(source = "assets/hero/playerUP.png")] public static var playerUP:Class;
+		[Embed(source = "assets/hero/playerLEFT.png")] public static var playerLEFT:Class;
+		[Embed(source = "assets/hero/playerRIGHT.png")] public static var playerRIGHT:Class;
+		
 		// pixel for map smooth transition
 		[Embed(source = "assets/pixel.png")] public static var pixel:Class;
 		

@@ -22,7 +22,7 @@ package
 			
 			//pixel that moves the camera though rooms!
 			pixel = new FlxSprite(120, 80, AssetsRegistry.pixel);
-			pixel.visible = false;
+			pixel.visible = true;
 			
 			FlxG.worldBounds = new FlxRect(0, 0, 240, 160);
 			mapHeight = FlxG.worldBounds.height;
@@ -41,14 +41,14 @@ package
 			FlxG.camera.follow(pixel);
 			
 			if(direction=="down") {
-				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y+mapHeight, mapWidth, mapHeight);
+				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y + mapHeight, mapWidth, mapHeight);
 			}
 			
 			if(direction=="up") {
-				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y-mapHeight, mapWidth, mapHeight);
+				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y - mapHeight, mapWidth, mapHeight);
 			}
 			
-			FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y + mapHeight/2), 200);
+			FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y + mapHeight / 2), 200);
 		
 		}		
 	}

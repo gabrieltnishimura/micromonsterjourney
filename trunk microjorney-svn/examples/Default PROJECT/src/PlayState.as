@@ -55,19 +55,23 @@ package
 			else { player.Sprite.velocity.x = 0; player.Sprite.velocity.y = 0; }
 			
 			if ((scene.pixel.velocity.y > 0 && scene.pixel.y > FlxG.worldBounds.y + 80) || 
-				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y+80)) {
+				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y + 80)) {
 				scene.pixel.velocity.y = 0; scene.pixel.y = FlxG.worldBounds.y + 80;
 			}
 			if ((scene.pixel.velocity.x > 0 && scene.pixel.x > FlxG.worldBounds.x + 120) ||
-				(scene.pixel.velocity.x < 0 && scene.pixel.x < FlxG.worldBounds.x+120)) {
+				(scene.pixel.velocity.x < 0 && scene.pixel.x < FlxG.worldBounds.x + 120))  {
 				scene.pixel.velocity.x = 0; scene.pixel.x = FlxG.worldBounds.x + 120;
 			}
 		
-				if (player.Sprite.y >= FlxG.worldBounds.y + 160) {
+				if (player.y +16> FlxG.worldBounds.y + 160) {
+					player.y += 16;
 					scene.changeWorldBound("down");
+					player.smooth_move();;
 				}	
-				if (player.Sprite.y < FlxG.worldBounds.y){
+				if (player.y < FlxG.worldBounds.y) {
+					player.y -= 16;
 					scene.changeWorldBound("up");
+					player.smooth_move();
 				}
 		}
 		override public function destroy():void

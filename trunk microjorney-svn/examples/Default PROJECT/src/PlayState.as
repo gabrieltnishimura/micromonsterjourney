@@ -33,7 +33,7 @@ package
 			FlxG.watch(scene.pixel, "x", "X Position");
 			FlxG.watch(scene.pixel, "y", "Y Position");
 		
-			// adding entitiees to the screen
+			// adding entities to the screen
 			add(scene);
 			add(scene.pixel)
 			add(button);
@@ -42,17 +42,18 @@ package
 			FlxG.mouse.show();
 		}
 		
-		/* bad processing here*/
+		/* bad processing here - maybe not!*/
 		override public function update():void
 		{
 			super.update();	
 			// Snapped Movement of 8x8 HERE!
-			if (scene.pixel.velocity.x ==0 && scene.pixel.velocity.y == 0) {
+			if (scene.pixel.velocity.x == 0 && scene.pixel.velocity.y == 0) {
 				player.move(8, 8);
 				FlxG.collide(player, scene);
 				player.smooth_move();
+			} else { //camera transition time
+				player.Sprite.velocity.x = 0; player.Sprite.velocity.y = 0; 
 			}
-			else { player.Sprite.velocity.x = 0; player.Sprite.velocity.y = 0; }
 			
 			if ((scene.pixel.velocity.y > 0 && scene.pixel.y > FlxG.worldBounds.y + 80) || 
 				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y + 80)) {
@@ -63,14 +64,24 @@ package
 				scene.pixel.velocity.x = 0; scene.pixel.x = FlxG.worldBounds.x + 120;
 			}
 		
-				if (player.y +16> FlxG.worldBounds.y + 160) {
-					player.y += 16;
+				if (player.y +16 > FlxG.worldBounds.y + 160) {
+					player.y += 8;
 					scene.changeWorldBound("down");
-					player.smooth_move();;
+					player.smooth_move();
 				}	
 				if (player.y < FlxG.worldBounds.y) {
-					player.y -= 16;
+					player.y -= 8;
 					scene.changeWorldBound("up");
+					player.smooth_move();
+				}
+				if (player.x +16 > FlxG.worldBounds.x + 240) {
+					player.x += 8;
+					scene.changeWorldBound("right");
+					player.smooth_move();
+				}	
+				if (player.x < FlxG.worldBounds.x) {
+					player.x -= 8;
+					scene.changeWorldBound("left");
 					player.smooth_move();
 				}
 		}

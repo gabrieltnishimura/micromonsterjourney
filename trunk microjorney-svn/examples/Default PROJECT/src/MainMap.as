@@ -18,12 +18,13 @@ package
 			map.loadMap(new AssetsRegistry.tilemapFinalCSV, AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 14);
 			
 			//game starts from the first room! at (0,0)
-			FlxG.camera.setBounds(0, 0, 240, 320);
+			FlxG.camera.setBounds(0, 0, 480, 320);
 			
 			//pixel that moves the camera though rooms!
 			pixel = new FlxSprite(120, 80, AssetsRegistry.pixel);
 			pixel.visible = true;
 			
+			//Initial collision area
 			FlxG.worldBounds = new FlxRect(0, 0, 240, 160);
 			mapHeight = FlxG.worldBounds.height;
 			mapWidth = FlxG.worldBounds.width;
@@ -48,8 +49,21 @@ package
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y - mapHeight, mapWidth, mapHeight);
 			}
 			
-			FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y + mapHeight / 2), 200);
-		
+			if(direction=="up" || direction=="down") {
+				FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y + mapHeight / 2), 200);
+			}
+			
+			if(direction=="right") {
+				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
+			}
+			
+			if(direction=="left") {
+				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x - mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
+			}
+			
+			if(direction=="right" || direction=="left") {
+				FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth / 2, FlxG.worldBounds.y + mapHeight), 200);
+			}
 		}		
 	}
 

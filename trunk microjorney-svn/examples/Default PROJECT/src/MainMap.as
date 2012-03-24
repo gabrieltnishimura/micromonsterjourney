@@ -10,9 +10,8 @@ package
 		public var mapcollision:FlxTilemap;
 		public var mapHeight:int = 208;
 		public var mapWidth:int = 272;
-		
+		public var items:FlxGroup;
 
-		
 		public function MainMap() 
 		{
 			super();
@@ -94,6 +93,8 @@ package
 					}
 				}
 			}
+			
+			
 		}
 	}
 }

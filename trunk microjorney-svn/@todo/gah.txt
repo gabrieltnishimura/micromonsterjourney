@@ -1,7 +1,0 @@
-[Right Click] (en route)
-Passar a requisicao do botao direito para dentro do Flash container.
-
-Usar ExternalInterface
-
-[Documentacao do dia 08/02/2012] (en route)
-Pegar tudo pensado e passar para o repositorio.

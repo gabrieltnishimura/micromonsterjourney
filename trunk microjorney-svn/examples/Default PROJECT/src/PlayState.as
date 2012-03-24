@@ -7,8 +7,7 @@ package
 	{
 		private var player:Char;
 		private var scene:MainMap;
-		private var button:FlxButton;
-		public var follow:int;
+		private var factory:MonsterFactory;
 		
 		/**
 		 * @todo [MODULAR]
@@ -24,63 +23,73 @@ package
 			/* hero instance here */
 				player = new Char(32, 32);
 			/* map instance here */
-				scene = new MainMap;				
-				
+				scene = new MainMap;
+			/* monster factory instance here*/
+				factory = new MonsterFactory();
+			
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
-			FlxG.watch(player.Sprite, "x", "X Position");
-			FlxG.watch(player.Sprite, "y", "Y Position");
+			FlxG.watch(player.Sprite, "x", "Player X coord");
+			FlxG.watch(player.Sprite, "y", "Player Y coord");
 				
-			FlxG.watch(scene.pixel, "x", "X Position");
-			FlxG.watch(scene.pixel, "y", "Y Position");
+			FlxG.watch(scene.pixel, "x", "Pixel X coord");
+			FlxG.watch(scene.pixel, "y", "Pixel Y coord");
 		
+			FlxG.watch(scene.pixel.velocity, "x", "Pixel VelocityX");
+			FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
+			
+			factory.addMonster(5, 5);
+			
 			// adding entities to the screen
-			add(scene);
-			add(scene.pixel)
-			add(button);
-			add(player);
-			add(player.Sprite);
+			add(scene.map); 				add(scene.pixel)
+			add(player); 					add(player.Sprite);
+			add(scene.mapcollision);  		add(factory);
 			FlxG.mouse.show();
 		}
 		
-		/* bad processing here - maybe not!*/
+		/*bad processing here - maybe not!*/
 		override public function update():void
 		{
 			super.update();	
 			// Snapped Movement of 8x8 HERE!
 			if (scene.pixel.velocity.x == 0 && scene.pixel.velocity.y == 0) {
 				player.move(8, 8);
-				FlxG.collide(player, scene);
+				FlxG.collide(player, scene.mapcollision);
 				player.smooth_move();
-			} else { //camera transition time
-				player.Sprite.velocity.x = 0; player.Sprite.velocity.y = 0; 
+			} else { //camera transition time - moves the pixel to the next room
+				player.Sprite.velocity.x = 0; 
+				player.Sprite.velocity.y = 0; 
 			}
-			
-			if ((scene.pixel.velocity.y > 0 && scene.pixel.y > FlxG.worldBounds.y + 80) || 
-				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y + 80)) {
-				scene.pixel.velocity.y = 0; scene.pixel.y = FlxG.worldBounds.y + 80;
+
+			// Stops and moves the pixel to the center of the actual room
+			if ((scene.pixel.velocity.y > 0 && scene.pixel.y > FlxG.worldBounds.y + scene.mapHeight/2) || 
+				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y + scene.mapHeight/2)) {
+				scene.pixel.velocity.y = 0; 
+				scene.pixel.y = FlxG.worldBounds.y + scene.mapHeight/2;
 			}
-			if ((scene.pixel.velocity.x > 0 && scene.pixel.x > FlxG.worldBounds.x + 120) ||
-				(scene.pixel.velocity.x < 0 && scene.pixel.x < FlxG.worldBounds.x + 120))  {
-				scene.pixel.velocity.x = 0; scene.pixel.x = FlxG.worldBounds.x + 120;
+			if ((scene.pixel.velocity.x > 0 && scene.pixel.x > FlxG.worldBounds.x + scene.mapWidth/2) ||
+				(scene.pixel.velocity.x < 0 && scene.pixel.x < FlxG.worldBounds.x + scene.mapWidth/2)) {
+				scene.pixel.velocity.x = 0; 
+				scene.pixel.x = FlxG.worldBounds.x + scene.mapWidth/2;
 			}
-		
-				if (player.y +16 > FlxG.worldBounds.y + 160) {
-					player.y += 8;
+
+			// Check if the player moved to another room
+				if (player.y +32 >= FlxG.worldBounds.y + scene.mapHeight) {
+					player.y += 56;
 					scene.changeWorldBound("down");
 					player.smooth_move();
 				}	
-				if (player.y < FlxG.worldBounds.y) {
-					player.y -= 8;
+				if (player.y -16 <= FlxG.worldBounds.y) {
+					player.y -= 56;
 					scene.changeWorldBound("up");
 					player.smooth_move();
 				}
-				if (player.x +16 > FlxG.worldBounds.x + 240) {
-					player.x += 8;
+				if (player.x +32 >= FlxG.worldBounds.x + scene.mapWidth) {
+					player.x += 56;
 					scene.changeWorldBound("right");
 					player.smooth_move();
 				}	
-				if (player.x < FlxG.worldBounds.x) {
-					player.x -= 8;
+				if (player.x -16 <= FlxG.worldBounds.x) {
+					player.x -= 56;
 					scene.changeWorldBound("left");
 					player.smooth_move();
 				}

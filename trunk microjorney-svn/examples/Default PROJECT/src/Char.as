@@ -33,7 +33,7 @@ package
 		{
 			var deltaX:int = this.x;
 			var deltaY:int = this.y;
-			
+				
 			if (FlxG.keys.pressed("LEFT"))
 			{
 				if (this.x == Sprite.x)
@@ -42,15 +42,18 @@ package
 					deltaX = this.x - snapX;
 					deltaY = this.y;
 				}
+				
 			}
 			else if (FlxG.keys.pressed("UP"))
 			{
 				if (this.y == Sprite.y)
 				{
+					//Sprite.facing(FlxSprite. / LEFT);
 					Sprite.loadGraphic(AssetsRegistry.playerUP, false, false, 16, 16);
 					deltaX = this.x;
 					deltaY = this.y - snapY;
 				}
+				
 			}
 			else if (FlxG.keys.pressed("RIGHT"))
 			{
@@ -65,7 +68,7 @@ package
 			{
 				if (this.y == Sprite.y)
 				{
-					Sprite.loadGraphic(AssetsRegistry.playerDOWN, false, false, 16, 16);
+					Sprite.loadGraphic(AssetsRegistry.playerDOWN, false, false, 16, 21);
 					deltaX = this.x;
 					deltaY = this.y + snapY;
 				}

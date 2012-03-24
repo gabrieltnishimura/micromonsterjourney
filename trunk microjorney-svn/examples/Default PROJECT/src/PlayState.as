@@ -41,8 +41,9 @@ package
 		
 			FlxG.watch(scene.pixel.velocity, "x", "Pixel VelocityX");
 			FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
+			FlxG.watch(player, "health", "health");
 			
-			mFactory.addMonster(5, 5);
+			mFactory.addMonster(Math.floor(Math.random()* 13)+2, Math.floor(Math.random()* 9)+2);
 			iFactory.addItem(6, 5, 1);
 			
 			// adding entities to the screen
@@ -61,6 +62,7 @@ package
 			// Snapped Movement of 8x8 HERE!
 			if (scene.pixel.velocity.x == 0 && scene.pixel.velocity.y == 0) {
 				player.move(8, 8);
+				FlxG.collide(player, mFactory, damage);
 				FlxG.collide(player, scene.mapcollision);
 				FlxG.collide(player, iFactory);
 				player.smooth_move();
@@ -110,5 +112,13 @@ package
 			
 			super.destroy();
 		}
+		
+		public function damage(player:FlxExtendedSprite, monster:FlxExtendedSprite, hp:int = 10):void
+		{
+			monster.kill();
+			player.hurt(10);
+			mFactory.addMonster(Math.floor(Math.random()* 13)+2, Math.floor(Math.random()* 9)+2);
+		}
+		
 	}
 }

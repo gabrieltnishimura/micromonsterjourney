@@ -26,12 +26,13 @@ package
 				
 			else if (id == 3)
 				loadGraphic(AssetsRegistry.red_treasure, true, true, 16, 16);
-				
+			this.immovable = true;
 			addAnimation("open", [1, 2, 3], 12, false);
 		}
 		
 		override public function kill():void
 		{
+			super.kill();
 		}
 		
 		public function openTreasure():void

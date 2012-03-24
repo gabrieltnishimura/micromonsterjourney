@@ -20,7 +20,15 @@ package
 		{
 			Sprite = new FlxExtendedSprite(inicX, inicY, AssetsRegistry.playerUP);
 			super(inicX, inicY);
+			this.health = 100;
 			this.visible = false; // the sprite of character is invisible, as is is only necessary to snap.
+		}
+		
+		override public function kill():void
+		{
+			Sprite.kill();
+			super.kill();
+			trace ("You dead Asshole")
 		}
 		
 		/**

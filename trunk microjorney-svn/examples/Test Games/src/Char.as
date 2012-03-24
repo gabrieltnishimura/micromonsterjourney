@@ -10,12 +10,15 @@ package
 	{
 		private var _speed:Number = 100;
 		public var Sprite:FlxExtendedSprite;
+		public var Sword:FlxExtendedSprite;
 		
 		public function Char(x:int = 0, y:int = 0)
 		{
 			super(x, y);
 			this.visible = false;
 			Sprite = new FlxExtendedSprite(x, y);
+			Sword = new FlxExtendedSprite(this.x, this.y);
+			Sword.makeGraphic(100, 10, 0xFFFFFFFF);
 		}
 		
 		public function move(snapX:int, snapY:int):void
@@ -82,7 +85,9 @@ package
 				Sprite.y = this.y;
 			}
 		}
-		
+		public function Attack():void {
+			Sword.angularVelocity = 200;
+		}
 	}
 
 }

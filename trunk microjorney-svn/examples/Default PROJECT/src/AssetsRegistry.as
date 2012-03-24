@@ -19,10 +19,8 @@ package
 		[Embed(source = "assets/mapCSV_items.csv", mimeType = "application/octet-stream")] public static var tilemap_itemsCSV:Class;
 
 		// Player facing
-		[Embed(source = "assets/hero/playerDOWN.png")] public static var playerDOWN:Class;
-		[Embed(source = "assets/hero/playerUP.png")] public static var playerUP:Class;
-		[Embed(source = "assets/hero/playerLEFT.png")] public static var playerLEFT:Class;
-		[Embed(source = "assets/hero/playerRIGHT.png")] public static var playerRIGHT:Class;
+		[Embed(source = "assets/hero/hero_DOWN_UP_LEFT_RIGHT.png")] public static var heroSheetPNG:Class;
+		[Embed(source = "assets/hero/default.png")] public static var heroDefaultPNG:Class;
 		
 		// Monster (no facing cause flash should be able to handle it)
 		[Embed(source = "assets/monster.png")] public static var monster:Class;

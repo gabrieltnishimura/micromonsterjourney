@@ -17,11 +17,17 @@ package
 		 * @param	inicY Inicial y position of the sprite of the character. Default 0.
 		 */
 		public function Char(inicX:int = 0, inicY:int = 0)
-		{
-			Sprite = new FlxExtendedSprite(inicX, inicY, AssetsRegistry.playerUP);
+		{	
 			super(inicX, inicY);
 			this.health = 100;
-			this.visible = false; // the sprite of character is invisible, as is is only necessary to snap.
+			this.visible = false; // the sprite of character is invisible, as i only necessary to snap.
+			
+			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, true, 16, 16, true);
+			Sprite.addAnimation("walkDOWN", [1, 2], 12, false);
+			Sprite.addAnimation("walkUP", [3, 4], 12, false);
+			Sprite.addAnimation("walkLEFT", [5, 6], 12, false);
+			Sprite.addAnimation("walkRIGHT", [7, 8], 12, false);	
+
 		}
 		
 		override public function kill():void
@@ -29,6 +35,28 @@ package
 			Sprite.kill();
 			super.kill();
 			trace ("You dead Asshole")
+		}
+		
+		override public function update():void 
+		{
+			super.update();
+			
+				if (Sprite.velocity.x > 0)
+				{
+					play("walkRIGHT");
+				}
+				if (Sprite.velocity.x < 0)
+				{
+					play("walkLEFT");
+				}
+				if (Sprite.velocity.y > 0)
+				{
+					play("walkUP");
+				}
+				if (Sprite.velocity.y < 0)
+				{
+					play("walkDOWN");
+				}
 		}
 		
 		/**
@@ -46,7 +74,7 @@ package
 			{
 				if (this.x == Sprite.x)
 				{
-					Sprite.loadGraphic(AssetsRegistry.playerLEFT, false, false, 16, 16);
+					//Sprite.loadGraphic(AssetsRegistry.playerLEFT, true, true, 16, 16);
 					deltaX = this.x - snapX;
 					deltaY = this.y;
 				}
@@ -56,8 +84,7 @@ package
 			{
 				if (this.y == Sprite.y)
 				{
-					//Sprite.facing(FlxSprite. / LEFT);
-					Sprite.loadGraphic(AssetsRegistry.playerUP, false, false, 16, 16);
+					//Sprite.loadGraphic(AssetsRegistry.playerUP, true, true, 16, 16);
 					deltaX = this.x;
 					deltaY = this.y - snapY;
 				}
@@ -67,7 +94,7 @@ package
 			{
 				if (this.x == Sprite.x)
 				{
-					Sprite.loadGraphic(AssetsRegistry.playerRIGHT, false, false, 16, 16);
+					//Sprite.loadGraphic(AssetsRegistry.playerRIGHT, true, true, 16, 16);
 					deltaX = this.x + snapX;
 					deltaY = this.y;
 				}
@@ -76,7 +103,7 @@ package
 			{
 				if (this.y == Sprite.y)
 				{
-					Sprite.loadGraphic(AssetsRegistry.playerDOWN, false, false, 16, 21);
+					//Sprite.loadGraphic(AssetsRegistry.playerDOWN, true, true, 16, 21);
 					deltaX = this.x;
 					deltaY = this.y + snapY;
 				}

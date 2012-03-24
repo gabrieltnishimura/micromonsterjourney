@@ -7,29 +7,33 @@ package
 	{
 		public var map:FlxTilemap;
 		public var pixel:FlxSprite;
-		public var mapHeight:int;
-		public var mapWidth:int;
+		public var mapcollision:FlxTilemap;
+		public var mapHeight:int = 208;
+		public var mapWidth:int = 272;
+		
+
 		
 		public function MainMap() 
 		{
-			super(1);
-			// get map from assets registry class!
+			super();
+			// get map from assets registry class! no collision blocks: that is why there's a 1000 as collision index
 			map = new FlxTilemap();
-			map.loadMap(new AssetsRegistry.tilemapFinalCSV, AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 14);
+			map.loadMap(new AssetsRegistry.tilemap_leveltilesCSV, AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 1000);
+			// get collision tilemaps from assets registry class!
+			mapcollision = new FlxTilemap();
+			mapcollision.loadMap(new AssetsRegistry.tilemap_collisiontilesCSV, AssetsRegistry.tilemapPNG, 16, 16);
 			
 			//game starts from the first room! at (0,0)
-			FlxG.camera.setBounds(0, 0, 480, 320);
+			FlxG.camera.setBounds(0, 0, 544, 416);
 			
 			//pixel that moves the camera though rooms!
 			pixel = new FlxSprite(120, 80, AssetsRegistry.pixel);
-			pixel.visible = true;
+			pixel.visible = false;
 			
 			//Initial collision area
-			FlxG.worldBounds = new FlxRect(0, 0, 240, 160);
-			mapHeight = FlxG.worldBounds.height;
-			mapWidth = FlxG.worldBounds.width;
+			FlxG.worldBounds = new FlxRect(0, 0, mapWidth, mapHeight);
 			
-			add(map);
+			parseItems();
 		}
 		
 		/**
@@ -64,7 +68,32 @@ package
 			if(direction=="right" || direction=="left") {
 				FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth / 2, FlxG.worldBounds.y + mapHeight), 200);
 			}
-		}		
+			
+			/* Adds up the second map layer: it contains all items and stuff*/
+		}
+		
+		
+		/**
+		 * This function shows all the treasures on the map!
+		 */
+		private function parseItems():void
+		{
+			var itemsMap:FlxTilemap = new FlxTilemap();
+			var items:FlxGroup  = new FlxGroup();
+			itemsMap.loadMap(new AssetsRegistry.tilemap_itemsCSV, AssetsRegistry.tilemap_itemsPNG, 16, 16, 0, 0, 1, 1);
+			
+			for (var ty:int = 0; ty < itemsMap.heightInTiles; ty++)
+			{
+				for (var tx:int = 0; tx < itemsMap.widthInTiles; tx++)
+				{
+					/* all tiles that are not 0 are items*/
+					if (itemsMap.getTile(tx, ty) != 0)
+					{
+					trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")");
+						items.add(new Item(tx, ty, itemsMap.getTile(tx, ty)));
+					}
+				}
+			}
+		}
 	}
-
 }

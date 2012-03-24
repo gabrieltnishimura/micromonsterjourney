@@ -45,6 +45,7 @@ package
 			
 			add (map.worldmap);
 			add (ship);
+			add (ship.Sword);
 			add (ship.Sprite);
 			
 			//adiciona a camera que vai seguir o personagem duh
@@ -64,6 +65,13 @@ package
 			i = FlxG.collide(ship, lol, FlxG.overlap);*/
 			FlxG.collide(ship, map.worldmap);
 			//FlxG.collide(ship, map.map2);
+			if (FlxG.keys.Z)
+			ship.Attack();
+			if (ship.Sword.angle > 90){
+			ship.Sword.angle = 0;
+			ship.Sword.angularVelocity = 0;
+			}
+			
 		}
 		//override public function preUpdate():void 
 		//{

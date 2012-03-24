@@ -7,7 +7,9 @@ package
 	{
 		private var player:Char;
 		private var scene:MainMap;
-		private var factory:MonsterFactory;
+		private var mFactory:MonsterFactory;
+		private var iFactory:ItemFactory;
+		private var button:FlxButton;
 		
 		/**
 		 * @todo [MODULAR]
@@ -24,8 +26,11 @@ package
 				player = new Char(32, 32);
 			/* map instance here */
 				scene = new MainMap;
-			/* monster factory instance here*/
-				factory = new MonsterFactory();
+			/* monster factory instance here */
+				mFactory = new MonsterFactory;
+			/* item factory instance here */
+				iFactory = new ItemFactory;
+			/* button instance here */
 			
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
 			FlxG.watch(player.Sprite, "x", "Player X coord");
@@ -37,12 +42,15 @@ package
 			FlxG.watch(scene.pixel.velocity, "x", "Pixel VelocityX");
 			FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
 			
-			factory.addMonster(5, 5);
+			mFactory.addMonster(5, 5);
+			iFactory.addItem(6, 5, 1);
 			
 			// adding entities to the screen
 			add(scene.map); 				add(scene.pixel)
 			add(player); 					add(player.Sprite);
-			add(scene.mapcollision);  		add(factory);
+			add(scene.mapcollision);  		add(mFactory);
+			add(scene.items);				add(iFactory);
+			add(button)
 			FlxG.mouse.show();
 		}
 		
@@ -54,6 +62,7 @@ package
 			if (scene.pixel.velocity.x == 0 && scene.pixel.velocity.y == 0) {
 				player.move(8, 8);
 				FlxG.collide(player, scene.mapcollision);
+				FlxG.collide(player, iFactory);
 				player.smooth_move();
 			} else { //camera transition time - moves the pixel to the next room
 				player.Sprite.velocity.x = 0; 

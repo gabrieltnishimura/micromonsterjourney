@@ -10,6 +10,7 @@ package
 	{
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
+		public var Attack:FlxExtendedSprite;
 		
 		/**
 		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
@@ -20,14 +21,17 @@ package
 		{	
 			super(inicX, inicY);
 			this.health = 100;
-			this.visible = false; // the sprite of character is invisible, as i only necessary to snap.
+			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
 			
+			Sprite =  new FlxExtendedSprite();
 			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, true, 16, 16, true);
-			Sprite.addAnimation("walkDOWN", [1, 2], 12, false);
-			Sprite.addAnimation("walkUP", [3, 4], 12, false);
-			Sprite.addAnimation("walkLEFT", [5, 6], 12, false);
-			Sprite.addAnimation("walkRIGHT", [7, 8], 12, false);	
-
+			Sprite.addAnimation("walkDOWN", [0, 1], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
+			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
+			
+			Attack = new FlxExtendedSprite();
+			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
+			Attack.addAnimation("attackLEFT", [0, 1, 2, 3], 15, false);
+			Attack.visible = false;
 		}
 		
 		override public function kill():void
@@ -41,21 +45,32 @@ package
 		{
 			super.update();
 			
-				if (Sprite.velocity.x > 0)
-				{
-					play("walkRIGHT");
+			if (Sprite.velocity.x == 0 && Sprite.velocity.y == 0) 
+			{
+				if (FlxG.keys.justPressed("Z")) {
+					Attack.x = Sprite.x-16;
+					Attack.y = Sprite.y-16;
+					Attack.visible = true;
+					Attack.play("attackLEFT");
+					
 				}
-				if (Sprite.velocity.x < 0)
+			}
+			
+				if (FlxG.keys.pressed("RIGHT"))
 				{
-					play("walkLEFT");
+					Sprite.play("walkRIGHT");
 				}
-				if (Sprite.velocity.y > 0)
+				if (FlxG.keys.pressed("LEFT"))
 				{
-					play("walkUP");
+					Sprite.play("walkLEFT");
 				}
-				if (Sprite.velocity.y < 0)
+				if (FlxG.keys.pressed("UP"))
 				{
-					play("walkDOWN");
+					Sprite.play("walkUP");
+				}
+				if (FlxG.keys.pressed("DOWN"))
+				{
+					Sprite.play("walkDOWN");
 				}
 		}
 		
@@ -72,9 +87,8 @@ package
 				
 			if (FlxG.keys.pressed("LEFT"))
 			{
-				if (this.x == Sprite.x)
+	 			if (this.x == Sprite.x)
 				{
-					//Sprite.loadGraphic(AssetsRegistry.playerLEFT, true, true, 16, 16);
 					deltaX = this.x - snapX;
 					deltaY = this.y;
 				}
@@ -84,7 +98,6 @@ package
 			{
 				if (this.y == Sprite.y)
 				{
-					//Sprite.loadGraphic(AssetsRegistry.playerUP, true, true, 16, 16);
 					deltaX = this.x;
 					deltaY = this.y - snapY;
 				}
@@ -94,7 +107,6 @@ package
 			{
 				if (this.x == Sprite.x)
 				{
-					//Sprite.loadGraphic(AssetsRegistry.playerRIGHT, true, true, 16, 16);
 					deltaX = this.x + snapX;
 					deltaY = this.y;
 				}
@@ -103,7 +115,6 @@ package
 			{
 				if (this.y == Sprite.y)
 				{
-					//Sprite.loadGraphic(AssetsRegistry.playerDOWN, true, true, 16, 21);
 					deltaX = this.x;
 					deltaY = this.y + snapY;
 				}

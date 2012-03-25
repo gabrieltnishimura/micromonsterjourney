@@ -30,7 +30,6 @@ package
 				mFactory = new MonsterFactory;
 			/* item factory instance here */
 				iFactory = new ItemFactory;
-			/* button instance here */
 			
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
 			FlxG.watch(player.Sprite, "x", "Player X coord");
@@ -45,13 +44,14 @@ package
 			
 			mFactory.addMonster(Math.floor(Math.random()* 13)+2, Math.floor(Math.random()* 9)+2);
 			iFactory.addItem(6, 5, 1);
+			iFactory.addItem(6, 6, 2);
 			
 			// adding entities to the screen
 			add(scene.map); 				add(scene.pixel)
 			add(player); 					add(player.Sprite);
 			add(scene.mapcollision);  		add(mFactory);
 			add(scene.items);				add(iFactory);
-			add(button)
+			add(player.Attack);
 			FlxG.mouse.show();
 		}
 		

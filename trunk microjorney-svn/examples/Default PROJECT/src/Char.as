@@ -30,7 +30,7 @@ package
 			
 			Attack = new FlxExtendedSprite();
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
-			Attack.addAnimation("attackLEFT", [0, 1, 2, 3], 15, false);
+			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);
 			Attack.visible = false;
 		}
 		
@@ -41,7 +41,7 @@ package
 			trace ("You dead Asshole")
 		}
 		
-		override public function update():void 
+		override public function update():void
 		{
 			super.update();
 			
@@ -51,8 +51,13 @@ package
 					Attack.x = Sprite.x-16;
 					Attack.y = Sprite.y-16;
 					Attack.visible = true;
+					Sprite.visible = false;
 					Attack.play("attackLEFT");
-					
+				}
+				if (Attack.finished)
+				{
+					Attack.visible = false;
+					Sprite.visible = true;
 				}
 			}
 			

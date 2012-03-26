@@ -12,7 +12,7 @@ package
 		 * as in AssetsRegistry, with number ID into the game.
 		 * @param	x x TILE coordinate of the item
 		 * @param	y y TILE coordinate of the item
-		 * @param	id id of the item you want to instanc
+		 * @param	id id of the item you want to instanciate
 		 */
 		public function Item(x:int, y:int, id:int) 
 		{
@@ -26,6 +26,7 @@ package
 				
 			else if (id == 3)
 				loadGraphic(AssetsRegistry.red_treasure, true, true, 16, 16);
+				
 			this.immovable = true;
 			addAnimation("open", [1, 2, 3], 12, false);
 		}

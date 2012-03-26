@@ -25,8 +25,9 @@ package
 			//game starts from the first room! at (0,0)
 			FlxG.camera.setBounds(0, 0, 544, 416);
 			
-			//pixel that moves the camera though rooms!
-			pixel = new FlxSprite(120, 80, AssetsRegistry.pixel);
+			//pixel that moves the camera though rooms!			
+			pixel = new FlxSprite(120, 80);
+			pixel.makeGraphic(1, 1, 0xFF000000);
 			pixel.visible = false;
 			
 			//Initial collision area

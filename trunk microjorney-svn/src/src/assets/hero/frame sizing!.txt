@@ -1,0 +1,8 @@
+1st frame: DOWN(1) = 13x16
+2nd frame: DOWN(2) = 13x16
+3rd frame: UP(1)   = 12x16
+4th frame: UP(2)   = 12x16
+5th frame: LEFT(1) = 14x16
+6th frame: LEFT(2) = 13x16
+7th frame: RIGHT(1)= 14x16
+8th frame: RIGHT(2)= 13x16

@@ -21,6 +21,7 @@ package
 		// Player facing
 		[Embed(source = "assets/hero/hero_DOWN_UP_LEFT_RIGHT.png")] public static var heroSheetPNG:Class;
 		[Embed(source = "assets/hero/heroSwing_4f_30x28_LEFT.png")] public static var heroSwingPNG:Class;
+		[Embed(source = "assets/hero/mmjwalksheet.png")] public static var heroTestPNG:Class;
 		
 		// Monster (no facing cause flash should be able to handle it)
 		[Embed(source = "assets/monsters/monster.png")] public static var monster:Class;

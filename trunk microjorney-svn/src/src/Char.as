@@ -25,9 +25,9 @@ package
 			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
 			
 			/* This is the visible part of the hero: it has 4 walking animations */
-			Sprite =  new FlxExtendedSprite();
-			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, true, 16, 16, true);
-			Sprite.addAnimation("walkDOWN", [0, 1], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
+			Sprite =  new FlxExtendedSprite(inicX - 1, inicY - 1);
+			Sprite.loadGraphic(AssetsRegistry.heroTestPNG, true, false, 18, 16, false);
+			Sprite.addAnimation("walkDOWN", [0, 2, 1, 2], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
 			
 			/* This is the hero attacking animation */
@@ -70,7 +70,7 @@ package
 			
 				if (FlxG.keys.pressed("RIGHT"))
 				{
-					Sprite.play("walkRIGHT");
+					Sprite.play("Attack");
 				}
 				if (FlxG.keys.pressed("LEFT"))
 				{
@@ -99,7 +99,7 @@ package
 				
 			if (FlxG.keys.pressed("LEFT"))
 			{
-	 			if (this.x == Sprite.x)
+	 			if (this.x-1 == Sprite.x)
 				{
 					deltaX = this.x - snapX;
 					deltaY = this.y;
@@ -108,7 +108,7 @@ package
 			}
 			else if (FlxG.keys.pressed("UP"))
 			{
-				if (this.y == Sprite.y)
+				if (this.y-1 == Sprite.y)
 				{
 					deltaX = this.x;
 					deltaY = this.y - snapY;
@@ -117,7 +117,7 @@ package
 			}
 			else if (FlxG.keys.pressed("RIGHT"))
 			{
-				if (this.x == Sprite.x)
+				if (this.x-1 == Sprite.x)
 				{
 					deltaX = this.x + snapX;
 					deltaY = this.y;
@@ -125,7 +125,7 @@ package
 			}
 			else if (FlxG.keys.pressed("DOWN"))
 			{
-				if (this.y == Sprite.y)
+				if (this.y-1 == Sprite.y)
 				{
 					deltaX = this.x;
 					deltaY = this.y + snapY;
@@ -142,31 +142,31 @@ package
 		 */
 		public function smooth_move(speed:int = 75):void
 		{
-			if (Sprite.x < this.x)
+			if (Sprite.x < this.x-1)
 			{
 				Sprite.velocity.x = speed;
 			}
-			if (Sprite.x > this.x)
+			if (Sprite.x > this.x-1)
 			{
 				Sprite.velocity.x = -speed;
 			}
-			if (Sprite.y < this.y)
+			if (Sprite.y < this.y-1)
 			{
 				Sprite.velocity.y = speed;
 			}
-			if (Sprite.y > this.y)
+			if (Sprite.y > this.y-1)
 			{
 				Sprite.velocity.y = -speed;
 			}
 			if (Math.abs(Sprite.x - this.x)<1)
 			{
 				Sprite.velocity.x = 0;
-				Sprite.x = this.x;
+				Sprite.x = this.x - 1;
 			}
 			if (Math.abs(Sprite.y - this.y)<1)
 			{
 				Sprite.velocity.y = 0;
-				Sprite.y = this.y;
+				Sprite.y = this.y - 1;
 			}
 		}
 	}

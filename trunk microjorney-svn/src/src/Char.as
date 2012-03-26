@@ -24,11 +24,13 @@ package
 			this.health = 100;
 			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
 			
+			/* This is the visible part of the hero: it has 4 walking animations */
 			Sprite =  new FlxExtendedSprite();
 			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, true, 16, 16, true);
 			Sprite.addAnimation("walkDOWN", [0, 1], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
 			
+			/* This is the hero attacking animation */
 			Attack = new FlxExtendedSprite();
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
 			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);

@@ -7,7 +7,6 @@ package
 	{
 		private var player:Char;
 		private var scene:MainMap;
-		public var mCount:Number;
 		
 		/**
 		 * @todo [MODULAR]
@@ -24,27 +23,21 @@ package
 				player = new Char(32, 32);
 			/* map instance here */
 				scene = new MainMap;
-			/* counter of monsters */
-				mCount = 1;
-				
+	
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
-			FlxG.watch(player.Sprite, "x", "Player X coord");
-			FlxG.watch(player.Sprite, "y", "Player Y coord");
-				
-			FlxG.watch(scene.pixel, "x", "Pixel X coord");
-			FlxG.watch(scene.pixel, "y", "Pixel Y coord");
-		
-			FlxG.watch(scene.pixel.velocity, "x", "Pixel VelocityX");
-			FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
+			FlxG.watch(player.Sprite, "x", "Player X coord");			FlxG.watch(player.Sprite, "y", "Player Y coord");
+			FlxG.watch(scene.pixel, "x", "Pixel X coord");				FlxG.watch(scene.pixel, "y", "Pixel Y coord");
+			FlxG.watch(scene.pixel.velocity, "x", "Pixel VelocityX");	FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
 			FlxG.watch(player, "health", "health");
+			FlxG.watch(scene, "playerCurX", "PlayerCur X");				FlxG.watch(scene, "playerCurY", "PlayerCur Y");
 			
 			// adding stuff to the screen. First we have all the level of the game (scene.*)
 			add(scene.map); 				add(scene.pixel);
 			add(scene.mapcollision);  		add(scene.mFactory);
-			add(scene.items);				add(scene.iFactory);
+			add(scene.iFactory);
 			// then we have the player related stuff
 			add(player); 					add(player.Sprite);
-			add(player.Attack);
+			add(player.Attack);				add(player.Border);
 			
 			FlxG.mouse.show();
 		}
@@ -59,15 +52,25 @@ package
 				player.move(8, 8);
 				// this part of the code is related to what it seems to be the tilemap and static objects, like stones
 				FlxG.collide(player, scene.mapcollision);
-				FlxG.collide(player, scene.mFactory, damage);
+				FlxG.collide(player, scene.mFactory, damagePlayerOnly);
 				FlxG.collide(player, scene.iFactory);
 				
 				/* here we have the collision check: of the attack animation with the monster */
-				//for (var i:int = 0; i < mFactory.length; i++) {
-					if (FlxCollision.pixelPerfectCheck(player.Attack, scene.mFactory.members[0])) {
-						damage(player, scene.mFactory.members[0]);
+					for each (var monster:FlxExtendedSprite in scene.mFactory.members)
+					{
+						if (FlxCollision.pixelPerfectCheck(player.Attack, monster))
+						{
+							monster.kill();
+						}
 					}
-				//}
+					
+					for each (var item:Item in scene.iFactory.members)
+					{
+						if (FlxCollision.pixelPerfectCheck(player.Border, item))
+						{ 
+							item._collidingWithPlayer = true;
+						}
+					}
 				// HERE is where the player sprite moves to the virtual sprite location
 				player.smooth_move();
 				
@@ -93,38 +96,48 @@ package
 					player.y += 56;
 					scene.changeWorldBound("down");
 					player.smooth_move();
+					
+					/* if player is not moving anymore */
+						scene.instanciatesLiveEntities();
 				}	
 				if (player.y -16 <= FlxG.worldBounds.y) {
 					player.y -= 56;
 					scene.changeWorldBound("up");
 					player.smooth_move();
+					
+					/* if player is not moving anymore */
+						scene.instanciatesLiveEntities();
 				}
 				if (player.x +32 >= FlxG.worldBounds.x + scene.mapWidth) {
 					player.x += 56;
 					scene.changeWorldBound("right");
 					player.smooth_move();
+					
+					/* if player is not moving anymore */
+						scene.instanciatesLiveEntities();
 				}	
 				if (player.x -16 <= FlxG.worldBounds.x) {
 					player.x -= 56;
 					scene.changeWorldBound("left");
 					player.smooth_move();
+					
+					/* if player is not moving anymore */
+						scene.instanciatesLiveEntities();
 				}
 		}
 		override public function destroy():void
 		{
 			//	Important! Clear out the plugin otherwise resources will get messed right up after a while
 			FlxControl.clear();
-			
+		 	
 			super.destroy();
 		}
 		
-		public function damage(player:FlxExtendedSprite, monster:FlxExtendedSprite, hp:int = 10):void
+		private function damagePlayerOnly(player:FlxExtendedSprite, monster:FlxExtendedSprite):void
 		{
 			monster.kill();
 			player.hurt(10);
-			scene.mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
-			scene.mFactory.members.shift();
+			scene.mFactory.addMonster(0, 0, true)
 		}
-		
 	}
 }

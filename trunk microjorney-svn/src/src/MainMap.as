@@ -8,14 +8,15 @@ package
 		/**
 		 * @todo Fix this crappy all's PUBLIC thing.
 		 */
-		public var map:FlxTilemap;
-		public var pixel:FlxSprite;
-		public var mapcollision:FlxTilemap;
-		public var mapHeight:int = 208;
-		public var mapWidth:int = 272;
-		public var items:FlxGroup;
-		public var mFactory:MonsterFactory;
-		public var iFactory:ItemFactory;
+		public var map:FlxTilemap; // playstate needs this
+		public var pixel:FlxSprite; // playstate needs this
+		public var mapcollision:FlxTilemap; // playstate needs this
+		public var mapHeight:int = 208; // playstate needs this
+		public var mapWidth:int = 272; // playstate needs this
+		public var mFactory:MonsterFactory; // playstate needs this
+		public var iFactory:ItemFactory; // playstate needs this
+		public var playerCurX:Number;
+		public var playerCurY:Number;
 		
 		public function MainMap() 
 		{
@@ -38,8 +39,16 @@ package
 			//Initial collision area
 			FlxG.worldBounds = new FlxRect(0, 0, mapWidth, mapHeight);
 			
-			addMonsters();
-			addItems();
+			// Factories!
+				iFactory = new ItemFactory;
+				mFactory = new MonsterFactory;
+
+			// Player starts at 0 0
+				playerCurX = 0;
+				playerCurY = 0;
+				
+			instanciatesLiveEntities();
+			
 			parseItems();
 		}
 		
@@ -54,10 +63,12 @@ package
 			
 			if(direction=="down") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y + mapHeight, mapWidth, mapHeight);
+				playerCurY++;
 			}
 			
 			if(direction=="up") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y - mapHeight, mapWidth, mapHeight);
+				playerCurY--;
 			}
 			
 			if(direction=="up" || direction=="down") {
@@ -66,10 +77,12 @@ package
 			
 			if(direction=="right") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
+				playerCurX++;
 			}
 			
 			if(direction=="left") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x - mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
+				playerCurY--;
 			}
 			
 			if(direction=="right" || direction=="left") {
@@ -83,44 +96,56 @@ package
 		/**
 		 * This function shows all the treasures on the map!
 		 * It loads the tilemap of entities and sweeps through it till it find not 0 tiles.
-		 * Those tiles are for instance, treasures.
+		 * Those tiles are for instance, treasures. For 
 		 */
 		private function parseItems():void
 		{
-			var itemsMap:FlxTilemap = new FlxTilemap();
-			var items:FlxGroup  = new FlxGroup();
-			itemsMap.loadMap(new AssetsRegistry.tilemap_itemsCSV, AssetsRegistry.tilemap_itemsPNG, 16, 16, 0, 0, 1, 1);
+			var entitiesMap:FlxTilemap = new FlxTilemap();
+			entitiesMap.loadMap(new AssetsRegistry.tilemap_entitiesCSV, 
+			/* this can be ignored */ AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 1);
 			
-			for (var ty:int = 0; ty < itemsMap.heightInTiles; ty++)
+			for (var ty:int = 0; ty < entitiesMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < itemsMap.widthInTiles; tx++)
+				for (var tx:int = 0; tx < entitiesMap.widthInTiles; tx++)
 				{
-					/* all tiles that are not 0 are items*/
-					if (itemsMap.getTile(tx, ty) != 0)
+					/* all tiles that are not 0 are items or objects*/
+					if (entitiesMap.getTile(tx, ty) != 0 && entitiesMap.getTile(tx, ty) != 1
+					&&  entitiesMap.getTile(tx, ty) <= 10)
 					{
-					trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")");
-						items.add(new Item(tx, ty, itemsMap.getTile(tx, ty)));
+					//[DEBUGING parser]
+					//trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")");
+						iFactory.addItem(tx, ty, entitiesMap.getTile(tx, ty));
 					}
 				}
-			}			
+			}
 		}
 		
-		public function addMonsters():void
+		/**
+		 * This function instanciates 
+		 */
+		public function instanciatesLiveEntities():void
 		{
-			/* monster factory instance here */
-				mFactory = new MonsterFactory;
-
-					mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
-					//mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
-					//mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
-		}
-		public function addItems():void
-		{
-			/* item factory instance here */
-				iFactory = new ItemFactory;
-				
-					iFactory.addItem(6, 5, 1);
-					iFactory.addItem(7, 3, 2);
+			var entitiesMap:FlxTilemap = new FlxTilemap();
+			entitiesMap.loadMap(new AssetsRegistry.tilemap_entitiesCSV, 
+			/* this can be ignored */ AssetsRegistry.tilemapPNG, 16, 16, 0, 0, 1, 1);
+			
+			for (var ty:int = 0; ty < entitiesMap.heightInTiles; ty++)
+			{
+				for (var tx:int = 0; tx < entitiesMap.widthInTiles; tx++)
+				{
+					/* tiles bigger*/
+					if (entitiesMap.getTile(tx, ty) > 10)
+					{
+					//[DEBUGING parser]
+					//trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")")
+					if ((tx >= 17 * playerCurX && tx < 17 * (playerCurX + 1)) &&
+						(ty >= 13 * playerCurY && ty < 13 * (playerCurY + 1)))
+						 {
+							mFactory.addMonster(tx, ty, false);
+						 }
+					}
+				}
+			}
 		}
 	}
 }

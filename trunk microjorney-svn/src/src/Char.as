@@ -25,10 +25,11 @@ package
 			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
 			
 			/* This is the visible part of the hero: it has 4 walking animations */
-			Sprite =  new FlxExtendedSprite(inicX - 1, inicY - 1);
+			Sprite =  new FlxExtendedSprite(inicX - 1, inicY);
 			Sprite.loadGraphic(AssetsRegistry.heroTestPNG, true, false, 18, 16, false);
-			Sprite.addAnimation("walkDOWN", [0, 2, 1, 2], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
+			Sprite.addAnimation("walkDOWN", [0, 2, 1, 2], 9, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
+			Sprite.addAnimation("stopDOWN", [2], 1, false);
 			
 			/* This is the hero attacking animation */
 			Attack = new FlxExtendedSprite();
@@ -70,7 +71,11 @@ package
 			
 				if (FlxG.keys.pressed("RIGHT"))
 				{
-					Sprite.play("Attack");
+					Sprite.play("walkRIGHT");
+				}
+				if (FlxG.keys.justReleased("DOWN"))
+				{
+					Sprite.play("stopDOWN", true);
 				}
 				if (FlxG.keys.pressed("LEFT"))
 				{
@@ -108,7 +113,7 @@ package
 			}
 			else if (FlxG.keys.pressed("UP"))
 			{
-				if (this.y-1 == Sprite.y)
+				if (this.y == Sprite.y)
 				{
 					deltaX = this.x;
 					deltaY = this.y - snapY;
@@ -125,7 +130,7 @@ package
 			}
 			else if (FlxG.keys.pressed("DOWN"))
 			{
-				if (this.y-1 == Sprite.y)
+				if (this.y == Sprite.y)
 				{
 					deltaX = this.x;
 					deltaY = this.y + snapY;
@@ -150,11 +155,11 @@ package
 			{
 				Sprite.velocity.x = -speed;
 			}
-			if (Sprite.y < this.y-1)
+			if (Sprite.y < this.y)
 			{
 				Sprite.velocity.y = speed;
 			}
-			if (Sprite.y > this.y-1)
+			if (Sprite.y > this.y)
 			{
 				Sprite.velocity.y = -speed;
 			}
@@ -166,7 +171,7 @@ package
 			if (Math.abs(Sprite.y - this.y)<1)
 			{
 				Sprite.velocity.y = 0;
-				Sprite.y = this.y - 1;
+				Sprite.y = this.y;
 			}
 		}
 	}

@@ -69,8 +69,9 @@ package
 				FlxG.collide(player, iFactory);
 				FlxG.collide(player.Attack, mFactory, damage);
 				
-					if (FlxCollision.pixelPerfectCheck(player.CollisionAttack, mFactory.mArray[mCount])) {
-						damage(player, mFactory.mArray[mCount]);
+					if (FlxCollision.pixelPerfectCheck(player.CollisionAttack, mFactory.members[0]/*mArray[mCount]*/)) {
+						damage(player, mFactory.members[0]/*mArray[mCount]*/);
+						mFactory.members.shift();
 					}
 				player.smooth_move();
 			} else { //camera transition time - moves the pixel to the next room

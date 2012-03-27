@@ -40,13 +40,6 @@ package
 		{
 			super.update();
 			
-			if(_id == 2)
-				play("blueClosed");
-			else if (_id == 3)
-				play("greenClosed");
-			else if (_id == 4)
-				play("redClosed");
-			
 			if (_collidingWithPlayer)
 			{
 				if (FlxG.keys.justPressed("X")) {
@@ -60,8 +53,20 @@ package
 					else if (_id == 4)
 						play("redOpen");
 				}
+			} else {
+			if(_id == 2)
+				play("blueClosed");
+			else if (_id == 3)
+				play("greenClosed");
+			else if (_id == 4)
+				play("redClosed");
 				
 			}
+		}
+		
+		public function setCollidingWithPlayer(collidingWithPlayer:Boolean):void
+		{
+			_collidingWithPlayer = collidingWithPlayer;
 		}
 	}
 

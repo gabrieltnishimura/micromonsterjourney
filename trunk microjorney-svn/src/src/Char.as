@@ -11,7 +11,6 @@ package
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
 		public var Attack:FlxExtendedSprite;
-		public var Border:FlxExtendedSprite;
 		
 		/**
 		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
@@ -36,11 +35,6 @@ package
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
 			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);
 			Attack.visible = false;
-			
-			Border = new FlxExtendedSprite();
-			Border.makeGraphic(16, 1, 0xFF000000);
-			Border.visible = false;
-			
 		}
 		
 		override public function kill():void
@@ -67,27 +61,40 @@ package
 				{
 					Attack.visible = false;
 					Sprite.visible = true;
+					
 				}
 			}
 				if (FlxG.keys.pressed("RIGHT"))
 				{
-					Sprite.play("walkRIGHT");
+				 Sprite.play("walkRIGHT");
+				}
+				//if (FlxG.keys.justReleased("RIGHT"))
+				//{
+				 //Sprite.play("stopRIGHT", true);
+				//}
+				if (FlxG.keys.pressed("LEFT"))
+				{
+				 Sprite.play("walkLEFT");
+				}
+				//if (FlxG.keys.justReleased("LEFT"))
+				//{
+				 //Sprite.play("stopLEFT", true);
+				//}
+				if (FlxG.keys.pressed("UP"))
+				{
+				 Sprite.play("walkUP");
+				}
+				//if (FlxG.keys.justReleased("UP"))
+				//{
+				 //Sprite.play("stopUP", true);
+				//}
+				if (FlxG.keys.pressed("DOWN"))
+				{
+				 Sprite.play("walkDOWN");
 				}
 				if (FlxG.keys.justReleased("DOWN"))
 				{
-					Sprite.play("stopDOWN", true);
-				}
-				if (FlxG.keys.pressed("LEFT"))
-				{
-					Sprite.play("walkLEFT");
-				}
-				if (FlxG.keys.pressed("UP"))
-				{
-					Sprite.play("walkUP");
-				}
-				if (FlxG.keys.pressed("DOWN"))
-				{
-					Sprite.play("walkDOWN");
+				 Sprite.play("stopDOWN", true);
 				}
 		}
 		
@@ -138,8 +145,6 @@ package
 			}
 			this.x = deltaX;
 			this.y = deltaY;
-			Border.x = deltaX;
-			Border.y = deltaY-1;
 		}
 		
 		/**

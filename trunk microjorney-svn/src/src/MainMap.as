@@ -5,13 +5,18 @@ package
 
 	public class MainMap extends FlxGroup
 	{
+		/**
+		 * @todo Fix this crappy all's PUBLIC thing.
+		 */
 		public var map:FlxTilemap;
 		public var pixel:FlxSprite;
 		public var mapcollision:FlxTilemap;
 		public var mapHeight:int = 208;
 		public var mapWidth:int = 272;
 		public var items:FlxGroup;
-
+		public var mFactory:MonsterFactory;
+		public var iFactory:ItemFactory;
+		
 		public function MainMap() 
 		{
 			super();
@@ -33,6 +38,8 @@ package
 			//Initial collision area
 			FlxG.worldBounds = new FlxRect(0, 0, mapWidth, mapHeight);
 			
+			addMonsters();
+			addItems();
 			parseItems();
 		}
 		
@@ -75,6 +82,8 @@ package
 		
 		/**
 		 * This function shows all the treasures on the map!
+		 * It loads the tilemap of entities and sweeps through it till it find not 0 tiles.
+		 * Those tiles are for instance, treasures.
 		 */
 		private function parseItems():void
 		{
@@ -93,9 +102,25 @@ package
 						items.add(new Item(tx, ty, itemsMap.getTile(tx, ty)));
 					}
 				}
-			}
-			
-			
+			}			
+		}
+		
+		public function addMonsters():void
+		{
+			/* monster factory instance here */
+				mFactory = new MonsterFactory;
+
+					mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
+					//mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
+					//mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
+		}
+		public function addItems():void
+		{
+			/* item factory instance here */
+				iFactory = new ItemFactory;
+				
+					iFactory.addItem(6, 5, 1);
+					iFactory.addItem(7, 3, 2);
 		}
 	}
 }

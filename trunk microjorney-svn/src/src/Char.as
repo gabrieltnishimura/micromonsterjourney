@@ -11,7 +11,6 @@ package
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
 		public var Attack:FlxExtendedSprite;
-		public var CollisionAttack:FlxExtendedSprite;
 		
 		/**
 		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
@@ -37,9 +36,6 @@ package
 			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);
 			Attack.visible = false;
 			
-			CollisionAttack = new FlxExtendedSprite();
-			CollisionAttack.makeGraphic(31, 31);
-			CollisionAttack.visible = false;
 		}
 		
 		override public function kill():void
@@ -58,8 +54,8 @@ package
 				if (FlxG.keys.justPressed("Z")) {
 					Attack.x = Sprite.x - 16;
 					Attack.y = Sprite.y - 16;
-					CollisionAttack.x = Sprite.x - 15;		CollisionAttack.y = Sprite.y - 15;
-					Attack.visible = true;		Sprite.visible = false;
+					Attack.visible = true;
+					Sprite.visible = false;
 					Attack.play("attackLEFT");
 				}
 				if (Attack.finished)
@@ -68,7 +64,6 @@ package
 					Sprite.visible = true;
 				}
 			}
-			
 				if (FlxG.keys.pressed("RIGHT"))
 				{
 					Sprite.play("walkRIGHT");

@@ -20,8 +20,8 @@ package
 		[Embed(source = "assets/hero/heroSwing_4f_30x28_LEFT.png")] public static var heroSwingPNG:Class;
 		[Embed(source = "assets/hero/mmjwalksheet.png")] public static var heroTestPNG:Class;
 		
-		// Monster (no facing cause flash should be able to handle it)
-		[Embed(source = "assets/monsters/monster.png")] public static var monster:Class;
+		// Monsters! The spritesheet display should be UP 16x16 LEFT 16x16 RIGHT 16x16 DOWN 16x16 (for monsters)
+		[Embed(source="assets/monsters/monsters_32f_16x16_UP_LEFT_RIGHT_DOWN.png")] public static var monsterSheetPNG:Class;
 
 		public function AssetsRegistry() 
 		{

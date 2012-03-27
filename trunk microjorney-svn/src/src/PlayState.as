@@ -7,8 +7,6 @@ package
 	{
 		private var player:Char;
 		private var scene:MainMap;
-		private var mFactory:MonsterFactory;
-		private var iFactory:ItemFactory;
 		public var mCount:Number;
 		
 		/**
@@ -26,10 +24,6 @@ package
 				player = new Char(32, 32);
 			/* map instance here */
 				scene = new MainMap;
-			/* monster factory instance here */
-				mFactory = new MonsterFactory;
-			/* item factory instance here */
-				iFactory = new ItemFactory;
 			/* counter of monsters */
 				mCount = 1;
 				
@@ -44,16 +38,14 @@ package
 			FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
 			FlxG.watch(player, "health", "health");
 			
-			mFactory.addMonster(Math.floor(Math.random()* 13)+2, Math.floor(Math.random()* 9)+2);
-			iFactory.addItem(6, 5, 1);
-			iFactory.addItem(6, 6, 2);
-			
-			// adding entities to the screen
-			add(scene.map); 				add(scene.pixel)
+			// adding stuff to the screen. First we have all the level of the game (scene.*)
+			add(scene.map); 				add(scene.pixel);
+			add(scene.mapcollision);  		add(scene.mFactory);
+			add(scene.items);				add(scene.iFactory);
+			// then we have the player related stuff
 			add(player); 					add(player.Sprite);
-			add(scene.mapcollision);  		add(mFactory);
-			add(scene.items);				add(iFactory);
-			add(player.Attack);				add(player.CollisionAttack);
+			add(player.Attack);
+			
 			FlxG.mouse.show();
 		}
 		
@@ -61,19 +53,24 @@ package
 		override public function update():void
 		{
 			super.update();	
-			// Snapped Movement of 8x8 HERE!
+
 			if (scene.pixel.velocity.x == 0 && scene.pixel.velocity.y == 0) {
+				// Snapped Movement (8x8) of the virtual sprite HERE!
 				player.move(8, 8);
-				FlxG.collide(player, mFactory, damage);
+				// this part of the code is related to what it seems to be the tilemap and static objects, like stones
 				FlxG.collide(player, scene.mapcollision);
-				FlxG.collide(player, iFactory);
-				FlxG.collide(player.Attack, mFactory, damage);
+				FlxG.collide(player, scene.mFactory, damage);
+				FlxG.collide(player, scene.iFactory);
 				
-					if (FlxCollision.pixelPerfectCheck(player.CollisionAttack, mFactory.members[0]/*mArray[mCount]*/)) {
-						damage(player, mFactory.members[0]/*mArray[mCount]*/);
-						mFactory.members.shift();
+				/* here we have the collision check: of the attack animation with the monster */
+				//for (var i:int = 0; i < mFactory.length; i++) {
+					if (FlxCollision.pixelPerfectCheck(player.Attack, scene.mFactory.members[0])) {
+						damage(player, scene.mFactory.members[0]);
 					}
+				//}
+				// HERE is where the player sprite moves to the virtual sprite location
 				player.smooth_move();
+				
 			} else { //camera transition time - moves the pixel to the next room
 				player.Sprite.velocity.x = 0; 
 				player.Sprite.velocity.y = 0; 
@@ -125,7 +122,8 @@ package
 		{
 			monster.kill();
 			player.hurt(10);
-			mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
+			scene.mFactory.addMonster(Math.floor(Math.random() * 13) + 2, Math.floor(Math.random() * 9) + 2);
+			scene.mFactory.members.shift();
 		}
 		
 	}

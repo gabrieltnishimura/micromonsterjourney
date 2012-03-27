@@ -11,12 +11,10 @@ package
 	{
 		private var _x:int;
 		private var _y:int;
-		public var mArray:Array;
 		
 		public function MonsterFactory()
 		{
 			super();
-			mArray = new Array()
 		}
 		
 		/**
@@ -26,14 +24,10 @@ package
 		 */
 		public function addMonster(x:int, y:int):void
 		{
-			trace("addMonster called, lenght of mArray:["+mArray.length+"]");
+			trace("addMonster called, lenght of mArray:["+this.length+"]");
 			_x = x;			_y = y;
 			trace(_x*16, _y*16);
-			var tempMonster:Monster = new Monster(x, y);
-			
-			mArray = new Array(Monster);
-			mArray.push(tempMonster);
-			
+			var tempMonster:Monster = new Monster(x, y, AssetsRegistry.monster, 1);
 			add(tempMonster);
 		}
 		

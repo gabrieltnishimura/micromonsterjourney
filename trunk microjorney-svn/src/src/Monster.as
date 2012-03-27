@@ -31,6 +31,8 @@ package
 			this.addAnimation("ORANGE_walkUP", [24, 25], 7, false);			this.addAnimation("ORANGE_walkLEFT", [26, 27], 7, false);
 			this.addAnimation("ORANGE_walkRIGHT", [28, 29], 7, false);		this.addAnimation("ORANGE_walkDOWN", [30, 31], 7, false);
 			
+			this.addAnimation("RED_dying", [0, 2, 5, 7, 0, 2, 5, 7], 12, false);
+			
 			this.immovable = true;
 			
 			_life = life;
@@ -38,7 +40,9 @@ package
 		
 		override public function kill():void
 		{
-			super.kill();
+			//play("RED_dying");
+			//if (this.finished)
+				super.kill();
 		}
 		
 		override public function update():void

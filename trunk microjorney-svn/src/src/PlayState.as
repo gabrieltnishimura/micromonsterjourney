@@ -29,7 +29,6 @@ package
 			FlxG.watch(scene.pixel, "x", "Pixel X coord");				FlxG.watch(scene.pixel, "y", "Pixel Y coord");
 			FlxG.watch(scene.pixel.velocity, "x", "Pixel VelocityX");	FlxG.watch(scene.pixel.velocity, "y", "Pixel VelocityY");
 			FlxG.watch(player, "health", "health");
-			FlxG.watch(scene, "playerCurX", "PlayerCur X");				FlxG.watch(scene, "playerCurY", "PlayerCur Y");
 			
 			// adding stuff to the screen. First we have all the level of the game (scene.*)
 			add(scene.map); 				add(scene.pixel);
@@ -37,7 +36,7 @@ package
 			add(scene.iFactory);
 			// then we have the player related stuff
 			add(player); 					add(player.Sprite);
-			add(player.Attack);				add(player.Border);
+			add(player.Attack);
 			
 			FlxG.mouse.show();
 		}
@@ -66,10 +65,8 @@ package
 					
 					for each (var item:Item in scene.iFactory.members)
 					{
-						if (FlxCollision.pixelPerfectCheck(player.Border, item))
-						{ 
-							item._collidingWithPlayer = true;
-						}
+						if (item.isTouching(FlxObject.DOWN)) 
+							item.setCollidingWithPlayer(true);
 					}
 				// HERE is where the player sprite moves to the virtual sprite location
 				player.smooth_move();

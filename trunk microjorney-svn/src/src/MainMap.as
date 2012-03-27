@@ -15,9 +15,7 @@ package
 		public var mapWidth:int = 272; // playstate needs this
 		public var mFactory:MonsterFactory; // playstate needs this
 		public var iFactory:ItemFactory; // playstate needs this
-		public var playerCurX:Number;
-		public var playerCurY:Number;
-		
+
 		public function MainMap() 
 		{
 			super();
@@ -42,10 +40,6 @@ package
 			// Factories!
 				iFactory = new ItemFactory;
 				mFactory = new MonsterFactory;
-
-			// Player starts at 0 0
-				playerCurX = 0;
-				playerCurY = 0;
 				
 			instanciatesLiveEntities();
 			
@@ -63,12 +57,10 @@ package
 			
 			if(direction=="down") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y + mapHeight, mapWidth, mapHeight);
-				playerCurY++;
 			}
 			
 			if(direction=="up") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y - mapHeight, mapWidth, mapHeight);
-				playerCurY--;
 			}
 			
 			if(direction=="up" || direction=="down") {
@@ -77,12 +69,10 @@ package
 			
 			if(direction=="right") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
-				playerCurX++;
 			}
 			
 			if(direction=="left") {
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x - mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
-				playerCurY--;
 			}
 			
 			if(direction=="right" || direction=="left") {
@@ -121,7 +111,9 @@ package
 		}
 		
 		/**
-		 * This function instanciates 
+		 * This function instanciates all live entities from the CSV entities file.
+		 * It only creates things on the current map of the player. So that
+		 * there is no need to instanciates 
 		 */
 		public function instanciatesLiveEntities():void
 		{
@@ -133,13 +125,13 @@ package
 			{
 				for (var tx:int = 0; tx < entitiesMap.widthInTiles; tx++)
 				{
-					/* tiles bigger*/
+					/* tiles bigger than 10 */
 					if (entitiesMap.getTile(tx, ty) > 10)
 					{
 					//[DEBUGING parser]
 					//trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")")
-					if ((tx >= 17 * playerCurX && tx < 17 * (playerCurX + 1)) &&
-						(ty >= 13 * playerCurY && ty < 13 * (playerCurY + 1)))
+					if ((tx >= FlxG.worldBounds.left && tx < FlxG.worldBounds.right) &&
+						(ty >= FlxG.worldBounds.top && ty < FlxG.worldBounds.bottom))
 						 {
 							mFactory.addMonster(tx, ty, false);
 						 }

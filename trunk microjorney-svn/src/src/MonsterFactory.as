@@ -32,7 +32,7 @@ package
 			}
 			
 			_x = x;			_y = y;
-			var tempMonster:Monster = new Monster(x, y, AssetsRegistry.monster, 1);
+			var tempMonster:Monster = new Monster(x, y, AssetsRegistry.monsterSheetPNG, 1, 1);
 			add(tempMonster);
 			trace("addMonster called, lenght of mArray:["+this.members.length+"] at ("+_x*16, _y*16+")");
 		}

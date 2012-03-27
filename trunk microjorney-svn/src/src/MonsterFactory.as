@@ -21,24 +21,25 @@ package
 		 * Adds a monster with AI to the map
 		 * @param	x x TILE coordinate of the new monster
 		 * @param	y y TILE coordinate of the new monster
+		 * @param	isRandom if true, ignores x and y param to randomize a position
 		 */
-		public function addMonster(x:int, y:int):void
+		public function addMonster(x:int, y:int, isRandom:Boolean = false):void
 		{
-			trace("addMonster called, lenght of mArray:["+this.length+"]");
+			if (isRandom) 
+			{
+				x = Math.floor(Math.random() * 13) + 2;
+				y = Math.floor(Math.random() * 9) + 2;
+			}
+			
 			_x = x;			_y = y;
-			trace(_x*16, _y*16);
 			var tempMonster:Monster = new Monster(x, y, AssetsRegistry.monster, 1);
 			add(tempMonster);
+			trace("addMonster called, lenght of mArray:["+this.members.length+"] at ("+_x*16, _y*16+")");
 		}
 		
 		override public function update():void
 		{
 			super.update();
 		}
-		
-		public function getPositionX():int 
-		{			return _x*16;			}
-		public function getPositionY():int 
-		{			return _y * 16;			}
 	}
 }

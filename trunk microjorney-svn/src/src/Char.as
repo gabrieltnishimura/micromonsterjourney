@@ -11,6 +11,7 @@ package
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
 		public var Attack:FlxExtendedSprite;
+		public var Border:FlxExtendedSprite;
 		
 		/**
 		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
@@ -35,6 +36,10 @@ package
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
 			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);
 			Attack.visible = false;
+			
+			Border = new FlxExtendedSprite();
+			Border.makeGraphic(16, 1, 0xFF000000);
+			Border.visible = false;
 			
 		}
 		
@@ -133,6 +138,8 @@ package
 			}
 			this.x = deltaX;
 			this.y = deltaY;
+			Border.x = deltaX;
+			Border.y = deltaY-1;
 		}
 		
 		/**
@@ -168,6 +175,14 @@ package
 				Sprite.velocity.y = 0;
 				Sprite.y = this.y;
 			}
+		}
+		
+		/**
+		 * This function deals 10 damage on the player
+		 */
+		public function damagePlayerOnly():void
+		{
+			this.hurt(10);
 		}
 	}
 }

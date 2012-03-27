@@ -11,12 +11,9 @@ package
 		[Embed(source = "assets/mapCSV_LevelTiles.csv", mimeType = "application/octet-stream")] public static var tilemap_leveltilesCSV:Class;
 		[Embed(source = "assets/mapCSV_CollisionTiles.csv", mimeType = "application/octet-stream")] public static var tilemap_collisiontilesCSV:Class;
 
-		// Items TileMap/CSV Files
-		[Embed(source="assets/items/blue_3f_16x16.png")] public static var blue_treasure:Class;
-		[Embed(source="assets/items/green_3f_16x16.png")] public static var green_treasure:Class;
-		[Embed(source = "assets/items/red_3f_16x16.png")] public static var red_treasure:Class;
-		[Embed(source = "assets/items/items_tilemap.PNG")] public static var tilemap_itemsPNG:Class;
-		[Embed(source = "assets/mapCSV_items.csv", mimeType = "application/octet-stream")] public static var tilemap_itemsCSV:Class;
+		// Items TileMap/CSV Files	
+		[Embed(source = "assets/items/treasure_9f_16x16.png")] public static var treasureSheetPNG:Class;
+		[Embed(source = "assets/mapCSV_entities.csv", mimeType = "application/octet-stream")] public static var tilemap_entitiesCSV:Class;
 
 		// Player facing
 		[Embed(source = "assets/hero/hero_DOWN_UP_LEFT_RIGHT.png")] public static var heroSheetPNG:Class;

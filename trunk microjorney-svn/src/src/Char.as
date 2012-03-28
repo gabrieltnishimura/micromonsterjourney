@@ -11,6 +11,8 @@ package
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
 		public var Attack:FlxExtendedSprite;
+		public var leftOrRight:String = "left";
+		public var upOrDown:String = "down";
 		
 		/**
 		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
@@ -25,10 +27,11 @@ package
 			
 			/* This is the visible part of the hero: it has 4 walking animations */
 			Sprite =  new FlxExtendedSprite(inicX - 1, inicY);
-			Sprite.loadGraphic(AssetsRegistry.heroTestPNG, true, false, 18, 16, false);
-			Sprite.addAnimation("walkDOWN", [0, 2, 1, 2], 9, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
+			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, false, 16, 16, false);
+			Sprite.addAnimation("walkDOWN", [0, 1], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
-			Sprite.addAnimation("stopDOWN", [2], 1, false);
+			Sprite.addAnimation("stopDOWN", [1], 1, false);					Sprite.addAnimation("stopUP", [3], 1, false);
+			Sprite.addAnimation("stopLEFT", [5], 1, false);					Sprite.addAnimation("stopRIGHT", [7], 1, false);
 			
 			/* This is the hero attacking animation */
 			Attack = new FlxExtendedSprite();
@@ -64,37 +67,52 @@ package
 					
 				}
 			}
-				if (FlxG.keys.pressed("RIGHT"))
-				{
-				 Sprite.play("walkRIGHT");
-				}
-				//if (FlxG.keys.justReleased("RIGHT"))
+				//if (FlxG.keys.pressed("RIGHT"))
 				//{
-				 //Sprite.play("stopRIGHT", true);
+				 //Sprite.play("walkRIGHT");
 				//}
-				if (FlxG.keys.pressed("LEFT"))
-				{
-				 Sprite.play("walkLEFT");
-				}
-				//if (FlxG.keys.justReleased("LEFT"))
+				//else if (FlxG.keys.pressed("LEFT"))
 				//{
-				 //Sprite.play("stopLEFT", true);
+				 //Sprite.play("walkLEFT");
 				//}
-				if (FlxG.keys.pressed("UP"))
-				{
-				 Sprite.play("walkUP");
-				}
-				//if (FlxG.keys.justReleased("UP"))
+				//else if (FlxG.keys.pressed("UP"))
 				//{
-				 //Sprite.play("stopUP", true);
+				 //Sprite.play("walkUP");
 				//}
-				if (FlxG.keys.pressed("DOWN"))
-				{
-				 Sprite.play("walkDOWN");
-				}
+				//else if (FlxG.keys.pressed("DOWN"))
+				//{
+				 //Sprite.play("walkDOWN");
+				//}
+				if (FlxG.keys.any()){
+				switch (facing) {
+					case FlxObject.LEFT:
+						Sprite.play("walkLEFT");
+						break;
+					case FlxObject.RIGHT:
+						Sprite.play("walkRIGHT");
+						break;
+					case FlxObject.UP:
+						Sprite.play("walkUP");
+						break;
+					case FlxObject.DOWN:
+						Sprite.play("walkDOWN");
+						break;
+				}}
 				if (FlxG.keys.justReleased("DOWN"))
 				{
 				 Sprite.play("stopDOWN", true);
+				}
+				if (FlxG.keys.justReleased("UP"))
+				{
+				 Sprite.play("stopUP", true);
+				}
+				if (FlxG.keys.justReleased("LEFT"))
+				{
+				 Sprite.play("stopLEFT", true);
+				}
+				if (FlxG.keys.justReleased("RIGHT"))
+				{
+				 Sprite.play("stopRIGHT", true);
 				}
 		}
 		
@@ -108,8 +126,67 @@ package
 		{
 			var deltaX:int = this.x;
 			var deltaY:int = this.y;
-				
-			if (FlxG.keys.pressed("LEFT"))
+			
+			//if (FlxG.keys.pressed("LEFT"))
+			//{
+	 			//if (this.x-1 == Sprite.x)
+				//{
+					//deltaX = this.x - snapX;
+					//deltaY = this.y;
+				//}
+				//
+			//}
+			//else if (FlxG.keys.pressed("UP"))
+			//{
+				//if (this.y == Sprite.y)
+				//{
+					//deltaX = this.x;
+					//deltaY = this.y - snapY;
+				//}
+				//
+			//}
+			//else if (FlxG.keys.pressed("RIGHT"))
+			//{
+				//if (this.x-1 == Sprite.x)
+				//{
+					//deltaX = this.x + snapX;
+					//deltaY = this.y;
+				//}
+			//}
+			//else if (FlxG.keys.pressed("DOWN"))
+			//{
+				//if (this.y == Sprite.y)
+				//{
+					//deltaX = this.x;
+					//deltaY = this.y + snapY;
+				//}
+			//}
+			
+			if (FlxG.keys.justPressed("LEFT")) {
+				facing = FlxObject.LEFT;
+				leftOrRight = "left";
+			}
+			if (FlxG.keys.justPressed("RIGHT")) {
+				facing = FlxObject.RIGHT;
+				leftOrRight = "right";
+			}
+			if (FlxG.keys.justPressed("UP")) {
+				facing = FlxObject.UP;
+				upOrDown = "up";
+			}
+			if (FlxG.keys.justPressed("DOWN")) {
+				facing = FlxObject.DOWN;
+				upOrDown = "down";
+			}
+			if (FlxG.keys.justReleased("LEFT") || FlxG.keys.justReleased("RIGHT")) {
+				if (FlxG.keys.UP && (upOrDown == "up")) facing = FlxObject.UP;
+				if (FlxG.keys.DOWN && (upOrDown == "down")) facing = FlxObject.DOWN;
+			}
+			if (FlxG.keys.justReleased("UP") || FlxG.keys.justReleased("DOWN")) {
+				if (FlxG.keys.LEFT && (leftOrRight == "left")) facing = FlxObject.LEFT;
+				if (FlxG.keys.RIGHT && (leftOrRight == "right")) facing = FlxObject.RIGHT;
+			}
+			if(FlxG.keys.LEFT && facing == FlxObject.LEFT)
 			{
 	 			if (this.x-1 == Sprite.x)
 				{
@@ -118,7 +195,15 @@ package
 				}
 				
 			}
-			else if (FlxG.keys.pressed("UP"))
+			if(FlxG.keys.RIGHT && facing == FlxObject.RIGHT)
+			{
+				if (this.x-1 == Sprite.x)
+				{
+					deltaX = this.x + snapX;
+					deltaY = this.y;
+				}
+			}
+			if(FlxG.keys.UP && facing == FlxObject.UP)
 			{
 				if (this.y == Sprite.y)
 				{
@@ -127,15 +212,7 @@ package
 				}
 				
 			}
-			else if (FlxG.keys.pressed("RIGHT"))
-			{
-				if (this.x-1 == Sprite.x)
-				{
-					deltaX = this.x + snapX;
-					deltaY = this.y;
-				}
-			}
-			else if (FlxG.keys.pressed("DOWN"))
+			if (FlxG.keys.DOWN && facing == FlxObject.DOWN)
 			{
 				if (this.y == Sprite.y)
 				{
@@ -143,6 +220,7 @@ package
 					deltaY = this.y + snapY;
 				}
 			}
+		 
 			this.x = deltaX;
 			this.y = deltaY;
 		}

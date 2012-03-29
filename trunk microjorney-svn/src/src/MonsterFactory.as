@@ -34,6 +34,9 @@ package
 			_x = x;			_y = y;
 			var tempMonster:Monster = new Monster(x, y, AssetsRegistry.monsterSheetPNG, 1, 1);
 			add(tempMonster);
+			/**
+			 * Guess if it does not pass through this line it means sprites are being recycled.
+			 */
 			trace("addMonster called, lenght of mArray:["+this.members.length+"] at ("+_x*16, _y*16+")");
 		}
 		

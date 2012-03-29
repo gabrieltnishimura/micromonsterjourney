@@ -17,7 +17,7 @@ package
 
 		// Player facing
 		[Embed(source = "assets/hero/hero_DOWN_UP_LEFT_RIGHT.png")] public static var heroSheetPNG:Class;
-		[Embed(source = "assets/hero/heroSwing_4f_30x28_LEFT.png")] public static var heroSwingPNG:Class;
+		[Embed(source = "assets/hero/heroSwing_8f_31x31_RIGHT_LEFT2.png")] public static var heroSwingPNG:Class;
 		[Embed(source = "assets/hero/mmjwalksheet.png")] public static var heroTestPNG:Class;
 		
 		// Monsters! The spritesheet display should be UP 16x16 LEFT 16x16 RIGHT 16x16 DOWN 16x16 (for monsters)

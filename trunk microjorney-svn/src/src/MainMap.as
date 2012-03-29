@@ -129,9 +129,10 @@ package
 					if (entitiesMap.getTile(tx, ty) > 10)
 					{
 					//[DEBUGING parser]
+					//trace("LEFT:["+FlxG.worldBounds.left+"] RIGHT: ["+FlxG.worldBounds.right+"]\nTOP: ["+FlxG.worldBounds.top+"] BOTTON:["+FlxG.worldBounds.bottom+"]");
 					//trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")")
-					if ((tx >= FlxG.worldBounds.left && tx < FlxG.worldBounds.right) &&
-						(ty >= FlxG.worldBounds.top && ty < FlxG.worldBounds.bottom))
+					if ((tx >= (FlxG.worldBounds.left/16) && tx < (FlxG.worldBounds.right/16)) &&
+						((ty >= FlxG.worldBounds.top/16) && ty < (FlxG.worldBounds.bottom/16)))
 						 {
 							mFactory.addMonster(tx, ty, false);
 						 }

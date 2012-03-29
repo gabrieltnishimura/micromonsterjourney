@@ -83,7 +83,7 @@ package
 				//{
 				 //Sprite.play("walkDOWN");
 				//}
-				if (FlxG.keys.any()){
+				if (FlxG.keys.UP || FlxG.keys.DOWN || FlxG.keys.RIGHT || FlxG.keys.LEFT){
 				switch (facing) {
 					case FlxObject.LEFT:
 						Sprite.play("walkLEFT");

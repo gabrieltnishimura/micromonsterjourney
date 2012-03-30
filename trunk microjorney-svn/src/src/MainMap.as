@@ -63,6 +63,7 @@ package
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x, FlxG.worldBounds.y - mapHeight, mapWidth, mapHeight);
 			}
 			
+			/* pixel moves towards the center of the next room */
 			if(direction=="up" || direction=="down") {
 				FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth, FlxG.worldBounds.y + mapHeight / 2), 200);
 			}
@@ -75,6 +76,7 @@ package
 				FlxG.worldBounds = new FlxRect(FlxG.worldBounds.x - mapWidth, FlxG.worldBounds.y, mapWidth, mapHeight);
 			}
 			
+			/* pixel moves towards the center of the next room */
 			if(direction=="right" || direction=="left") {
 				FlxVelocity.moveTowardsPoint(pixel, new FlxPoint(FlxG.worldBounds.x + mapWidth / 2, FlxG.worldBounds.y + mapHeight), 200);
 			}
@@ -131,8 +133,8 @@ package
 					//[DEBUGING parser]
 					//trace("LEFT:["+FlxG.worldBounds.left+"] RIGHT: ["+FlxG.worldBounds.right+"]\nTOP: ["+FlxG.worldBounds.top+"] BOTTON:["+FlxG.worldBounds.bottom+"]");
 					//trace("Tile No:[" + itemsMap.getTile(tx, ty) + "] Coord:(" + tx + "," + ty + ")")
-					if ((tx >= (FlxG.worldBounds.left/16) && tx < (FlxG.worldBounds.right/16)) &&
-						((ty >= FlxG.worldBounds.top/16) && ty < (FlxG.worldBounds.bottom/16)))
+					if ((tx >= (FlxG.worldBounds.left / 16) && tx < (FlxG.worldBounds.right / 16)) &&
+					(ty >= (FlxG.worldBounds.top / 16) && ty < (FlxG.worldBounds.bottom / 16)))
 						 {
 							mFactory.addMonster(tx, ty, false);
 						 }

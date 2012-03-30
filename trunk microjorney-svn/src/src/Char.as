@@ -38,8 +38,9 @@ package
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
 			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);
 			Attack.addAnimation("attackRIGHT", [3, 4, 5], 15, false);
-			Attack.addAnimation("attackDOWN", [6, 7, 8], 4, false);
-			Attack.visible = false;
+			Attack.addAnimation("attackDOWN", [6, 7, 8], 15, false);
+			Attack.addAnimation("attackUP", [9, 10, 11], 15, false);
+			Attack.exists = false;
 		}
 		
 		override public function kill():void
@@ -52,31 +53,42 @@ package
 		override public function update():void
 		{
 			super.update();
-			
-			if (Sprite.velocity.x == 0 && Sprite.velocity.y == 0) 
-			{
-				if (FlxG.keys.justPressed("Z") && (facing == FlxObject.LEFT || facing == FlxObject.UP)) {
-					Attack.x = Sprite.x - 16;
-					Attack.y = Sprite.y - 16;
-					Attack.visible = true;
-					Sprite.visible = false;
-					Attack.play("attackLEFT");
+				if (FlxG.keys.justPressed("Z"))
+				{
+					Attack.exists = true;
+					Sprite.exists = false;
+					switch(facing)
+					{
+						case FlxObject.LEFT:
+							Attack.x = Sprite.x - 15;
+							Attack.y = Sprite.y - 15;
+							Attack.play("attackLEFT");
+						break;
+						case FlxObject.RIGHT:
+							Attack.x = Sprite.x;
+							Attack.y = Sprite.y - 15;
+							Attack.play("attackRIGHT");
+						break;
+						case FlxObject.DOWN:
+							Attack.x = Sprite.x - 15;
+							Attack.y = Sprite.y;
+							Attack.play("attackDOWN");
+						break;
+						case FlxObject.UP:
+							Attack.x = Sprite.x;
+							Attack.y = Sprite.y - 15;
+							Attack.play("attackUP");
+						break;
+						
+					}
 				}
-				if (FlxG.keys.justPressed("Z") && (facing == FlxObject.RIGHT || facing == FlxObject.DOWN)) {
-					Attack.x = Sprite.x;
-					Attack.y = Sprite.y - 16;
-					Attack.visible = true;
-					Sprite.visible = false;
-					Attack.play("attackRIGHT");
-				}
+			//}
 
 				if (Attack.finished)
 				{
-					Attack.visible = false;
-					Sprite.visible = true;
-					
+					Attack.exists = false;
+					Sprite.exists = true;
 				}
-			}
 
 				if (FlxG.keys.UP || FlxG.keys.DOWN || FlxG.keys.RIGHT || FlxG.keys.LEFT)
 				{

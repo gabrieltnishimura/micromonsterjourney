@@ -46,35 +46,36 @@ package
 			if (_collidingWithPlayer)
 			{
 				if (FlxG.keys.justPressed("X")) {
-					
+					switch (_id) {
 					/* if id of item refers to the blue treasure! */
-					if (_id == 2) {
+					case 2:
 						if (isOpen) {
 							trace("Treasure already opened, you BASTARD!");
 						} else {
 							play("blueOpen");
 							isOpen = true;
 						}
-					}
+					break;
 					
 					/* if id of item refers to the green treasure! */
-					else if (_id == 3) {
+					case 3:
 						if (isOpen) {
 							trace("Treasure already opened, you BASTARD!");
 						} else {
 							play("greenOpen");
 							isOpen = true;
 						}
-					}
+					break;
 					
 					/* if id of item refers to the red treasure! */
-					else if (_id == 4) {
+					case 4:
 						if (isOpen) {
 							trace("Treasure already opened, you BASTARD!");
 						} else {
 							play("redOpen");
 							isOpen = true;
 						}
+					break;
 					}
 				}
 			// if it is not colliding with player, neither is open, play a closed animation

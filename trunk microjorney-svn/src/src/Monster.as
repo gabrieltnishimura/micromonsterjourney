@@ -14,7 +14,8 @@ package
 		 * @param	life Number of hits the monster can take (for now)
 		 */
 		public var _life:Number;
-		public function Monster(x:int, y:int, sprite:Class, type:int, life:int)
+		private var _isDead:Boolean;
+		public function Monster(x:int, y:int, sprite:Class, type:int, life:int, isDead:Boolean = false)
 		{
 			super(x * 16, y * 16);
 			
@@ -31,23 +32,26 @@ package
 			this.addAnimation("ORANGE_walkUP", [24, 25], 7, false);			this.addAnimation("ORANGE_walkLEFT", [26, 27], 7, false);
 			this.addAnimation("ORANGE_walkRIGHT", [28, 29], 7, false);		this.addAnimation("ORANGE_walkDOWN", [30, 31], 7, false);
 			
-			this.addAnimation("RED_dying", [0, 2, 5, 7, 0, 2, 5, 7], 12, false);
-			
-			this.immovable = true;
+			this.addAnimation("RED_dying", [0, 2, 5, 7], 15, false);
 			
 			_life = life;
+			_isDead = isDead;
 		}
 		
 		override public function kill():void
 		{
-			//play("RED_dying");
-			//if (this.finished)
-				super.kill();
+			play("RED_dying");
+			_isDead = true;
 		}
 		
 		override public function update():void
 		{
 			super.update();
+			
+			if (this.finished && _isDead == true)
+				super.kill();
+				
+			
 		}
 	}
 

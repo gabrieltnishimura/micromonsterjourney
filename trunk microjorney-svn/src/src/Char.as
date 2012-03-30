@@ -11,22 +11,23 @@ package
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
 		public var Attack:FlxExtendedSprite;
+		public var Border:FlxExtendedSprite;
 		public var leftOrRight:String = "left";
 		public var upOrDown:String = "down";
 		
 		/**
 		 * Constructor of the class. It shows the hero sprite at (inicX, inicY).
-		 * @param	inicX Inicial x position of the sprite of the character. Default 0.
-		 * @param	inicY Inicial y position of the sprite of the character. Default 0.
+		 * @param	inicX Inicial x TILE position of the sprite of the character. Default 0.
+		 * @param	inicY Inicial y TILE position of the sprite of the character. Default 0.
 		 */
 		public function Char(inicX:int = 0, inicY:int = 0)
 		{	
-			super(inicX, inicY);
+			super(inicX * 16, inicY * 16);
 			this.health = 100;
 			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
 			
 			/* This is the visible part of the hero: it has 4 walking animations */
-			Sprite =  new FlxExtendedSprite(inicX - 1, inicY);
+			Sprite =  new FlxExtendedSprite(inicX * 16, inicY * 16);
 			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, false, 16, 16, false);
 			Sprite.addAnimation("walkDOWN", [0, 1], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
@@ -41,6 +42,10 @@ package
 			Attack.addAnimation("attackDOWN", [6, 7, 8], 15, false);
 			Attack.addAnimation("attackUP", [9, 10, 11], 15, false);
 			Attack.exists = false;
+			
+			Border = new FlxExtendedSprite();
+			Border.makeGraphic(16, 1, 0xff00ffff, false);
+			Border.visible = false;
 		}
 		
 		override public function kill():void
@@ -82,8 +87,7 @@ package
 						
 					}
 				}
-			//}
-
+				
 				if (Attack.finished)
 				{
 					Attack.exists = false;
@@ -198,6 +202,8 @@ package
 		 
 			this.x = deltaX;
 			this.y = deltaY;
+			Border.x = deltaX;
+			Border.y = deltaY-1;
 		}
 		
 		/**

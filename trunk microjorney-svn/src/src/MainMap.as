@@ -136,7 +136,7 @@ package
 					if ((tx >= (FlxG.worldBounds.left / 16) && tx < (FlxG.worldBounds.right / 16)) &&
 					(ty >= (FlxG.worldBounds.top / 16) && ty < (FlxG.worldBounds.bottom / 16)))
 						 {
-							mFactory.addMonster(tx, ty, false);
+							mFactory.addMonster(tx, ty, false, entitiesMap.getTile(tx, ty));
 						 }
 					}
 				}

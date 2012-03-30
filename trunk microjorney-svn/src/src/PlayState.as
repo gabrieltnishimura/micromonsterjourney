@@ -62,11 +62,15 @@ package
 							monster.kill();
 						}
 					}
-					
+				/* sweeps for all the items and checks whether the char is colliding with the bottom part of the item */
 					for each (var item:Item in scene.iFactory.members)
 					{
-						if (item.isTouching(FlxObject.DOWN)) 
+						if (item.isTouching(FlxObject.DOWN)) {
 							item.setCollidingWithPlayer(true);
+						}
+						else {
+							item.setCollidingWithPlayer(false);
+						}
 					}
 				// HERE is where the player sprite moves to the virtual sprite location
 				player.smooth_move();
@@ -95,6 +99,7 @@ package
 					player.smooth_move();
 					
 					/* if player is not moving anymore */
+					if(player.y == player.Sprite.y)
 						scene.instanciatesLiveEntities();
 				}	
 				if (player.y -16 <= FlxG.worldBounds.y) {

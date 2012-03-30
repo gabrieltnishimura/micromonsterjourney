@@ -17,6 +17,7 @@ package
 		 */
 		private var _id:Number;
 		public var _collidingWithPlayer:Boolean;
+		private var isOpen:Boolean;
 		
 		public function Item(x:int, y:int, id:int) 
 		{
@@ -26,6 +27,7 @@ package
 			this.addAnimation("blueClosed", [0], 0, false);				this.addAnimation("blueOpen", [0, 1, 2], 7, false);
 			this.addAnimation("greenClosed", [3], 0, false);			this.addAnimation("greenOpen", [3, 4, 5], 7, false);
 			this.addAnimation("redClosed", [6], 0, false);				this.addAnimation("redOpen", [6, 7, 8], 7, false);
+			
 			this.immovable = true;
 			
 			this._id = id;
@@ -40,20 +42,43 @@ package
 		{
 			super.update();
 			
+			/* if player is touching the item */
 			if (_collidingWithPlayer)
 			{
 				if (FlxG.keys.justPressed("X")) {
-					if (_id == 2)
-					{
-						play("blueOpen");
-						trace("Opened blue")
+					
+					/* if id of item refers to the blue treasure! */
+					if (_id == 2) {
+						if (isOpen) {
+							trace("Treasure already opened, you BASTARD!");
+						} else {
+							play("blueOpen");
+							isOpen = true;
+						}
 					}
-					else if (_id == 3)
-						play("greenOpen");
-					else if (_id == 4)
-						play("redOpen");
+					
+					/* if id of item refers to the green treasure! */
+					else if (_id == 3) {
+						if (isOpen) {
+							trace("Treasure already opened, you BASTARD!");
+						} else {
+							play("greenOpen");
+							isOpen = true;
+						}
+					}
+					
+					/* if id of item refers to the red treasure! */
+					else if (_id == 4) {
+						if (isOpen) {
+							trace("Treasure already opened, you BASTARD!");
+						} else {
+							play("redOpen");
+							isOpen = true;
+						}
+					}
 				}
-			} else {
+			// if it is not colliding with player, neither is open, play a closed animation
+			} else if(!isOpen) {
 			if(_id == 2)
 				play("blueClosed");
 			else if (_id == 3)

@@ -38,6 +38,7 @@ package
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);
 			Attack.addAnimation("attackLEFT", [0, 1, 2], 15, false);
 			Attack.addAnimation("attackRIGHT", [3, 4, 5], 15, false);
+			Attack.addAnimation("attackDOWN", [6, 7, 8], 4, false);
 			Attack.visible = false;
 		}
 		
@@ -54,20 +55,21 @@ package
 			
 			if (Sprite.velocity.x == 0 && Sprite.velocity.y == 0) 
 			{
-				if (FlxG.keys.justPressed("Z") && facing == FlxObject.LEFT) {
+				if (FlxG.keys.justPressed("Z") && (facing == FlxObject.LEFT || facing == FlxObject.UP)) {
 					Attack.x = Sprite.x - 16;
 					Attack.y = Sprite.y - 16;
 					Attack.visible = true;
 					Sprite.visible = false;
 					Attack.play("attackLEFT");
 				}
-				if (FlxG.keys.justPressed("Z") && facing == FlxObject.RIGHT) {
+				if (FlxG.keys.justPressed("Z") && (facing == FlxObject.RIGHT || facing == FlxObject.DOWN)) {
 					Attack.x = Sprite.x;
 					Attack.y = Sprite.y - 16;
 					Attack.visible = true;
 					Sprite.visible = false;
 					Attack.play("attackRIGHT");
 				}
+
 				if (Attack.finished)
 				{
 					Attack.visible = false;
@@ -75,37 +77,25 @@ package
 					
 				}
 			}
-				//if (FlxG.keys.pressed("RIGHT"))
-				//{
-				 //Sprite.play("walkRIGHT");
-				//}
-				//else if (FlxG.keys.pressed("LEFT"))
-				//{
-				 //Sprite.play("walkLEFT");
-				//}
-				//else if (FlxG.keys.pressed("UP"))
-				//{
-				 //Sprite.play("walkUP");
-				//}
-				//else if (FlxG.keys.pressed("DOWN"))
-				//{
-				 //Sprite.play("walkDOWN");
-				//}
-				if (FlxG.keys.UP || FlxG.keys.DOWN || FlxG.keys.RIGHT || FlxG.keys.LEFT){
-				switch (facing) {
-					case FlxObject.LEFT:
-						Sprite.play("walkLEFT");
-						break;
-					case FlxObject.RIGHT:
-						Sprite.play("walkRIGHT");
-						break;
-					case FlxObject.UP:
-						Sprite.play("walkUP");
-						break;
-					case FlxObject.DOWN:
-						Sprite.play("walkDOWN");
-						break;
-				}}
+
+				if (FlxG.keys.UP || FlxG.keys.DOWN || FlxG.keys.RIGHT || FlxG.keys.LEFT)
+				{
+					switch (facing) 
+					{
+						case FlxObject.LEFT:
+							Sprite.play("walkLEFT");
+							break;
+						case FlxObject.RIGHT:
+							Sprite.play("walkRIGHT");
+							break;
+						case FlxObject.UP:
+							Sprite.play("walkUP");
+							break;
+						case FlxObject.DOWN:
+							Sprite.play("walkDOWN");
+							break;
+					}
+				}
 				if (FlxG.keys.justReleased("DOWN"))
 				{
 				 Sprite.play("stopDOWN", true);
@@ -134,41 +124,6 @@ package
 		{
 			var deltaX:int = this.x;
 			var deltaY:int = this.y;
-			
-			//if (FlxG.keys.pressed("LEFT"))
-			//{
-	 			//if (this.x-1 == Sprite.x)
-				//{
-					//deltaX = this.x - snapX;
-					//deltaY = this.y;
-				//}
-				//
-			//}
-			//else if (FlxG.keys.pressed("UP"))
-			//{
-				//if (this.y == Sprite.y)
-				//{
-					//deltaX = this.x;
-					//deltaY = this.y - snapY;
-				//}
-				//
-			//}
-			//else if (FlxG.keys.pressed("RIGHT"))
-			//{
-				//if (this.x-1 == Sprite.x)
-				//{
-					//deltaX = this.x + snapX;
-					//deltaY = this.y;
-				//}
-			//}
-			//else if (FlxG.keys.pressed("DOWN"))
-			//{
-				//if (this.y == Sprite.y)
-				//{
-					//deltaX = this.x;
-					//deltaY = this.y + snapY;
-				//}
-			//}
 			
 			if (FlxG.keys.justPressed("LEFT")) {
 				facing = FlxObject.LEFT;

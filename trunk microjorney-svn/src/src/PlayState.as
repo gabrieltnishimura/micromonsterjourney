@@ -76,20 +76,20 @@ package
 				player.smooth_move();
 				
 			} else { //camera transition time - moves the pixel to the next room
-				player.Sprite.velocity.x = 0; 
-				player.Sprite.velocity.y = 0; 
+				player.Sprite.velocity.x = 0;
+				player.Sprite.velocity.y = 0;
 			}
 
 			// Stops and moves the pixel to the center of the actual room
 			if ((scene.pixel.velocity.y > 0 && scene.pixel.y > FlxG.worldBounds.y + scene.mapHeight/2) || 
 				(scene.pixel.velocity.y < 0 && scene.pixel.y < FlxG.worldBounds.y + scene.mapHeight/2)) {
 				scene.pixel.velocity.y = 0; 
-				scene.pixel.y = FlxG.worldBounds.y + scene.mapHeight/2;
+				scene.pixel.y = FlxG.worldBounds.y + scene.mapHeight / 2;
 			}
 			if ((scene.pixel.velocity.x > 0 && scene.pixel.x > FlxG.worldBounds.x + scene.mapWidth/2) ||
 				(scene.pixel.velocity.x < 0 && scene.pixel.x < FlxG.worldBounds.x + scene.mapWidth/2)) {
 				scene.pixel.velocity.x = 0; 
-				scene.pixel.x = FlxG.worldBounds.x + scene.mapWidth/2;
+				scene.pixel.x = FlxG.worldBounds.x + scene.mapWidth / 2;
 			}
 
 			// Check if the player moved to another room
@@ -97,34 +97,29 @@ package
 					player.y += 56;
 					scene.changeWorldBound("down");
 					player.smooth_move();
-					
-					/* if player is not moving anymore */
-					if(player.y == player.Sprite.y)
-						scene.instanciatesLiveEntities();
+									scene.instanciatesLiveEntities();
+
 				}	
 				if (player.y -16 <= FlxG.worldBounds.y) {
 					player.y -= 56;
 					scene.changeWorldBound("up");
 					player.smooth_move();
-					
-					/* if player is not moving anymore */
-						scene.instanciatesLiveEntities();
+									scene.instanciatesLiveEntities();
+
 				}
 				if (player.x +32 >= FlxG.worldBounds.x + scene.mapWidth) {
 					player.x += 56;
 					scene.changeWorldBound("right");
 					player.smooth_move();
-					
-					/* if player is not moving anymore */
-						scene.instanciatesLiveEntities();
+									scene.instanciatesLiveEntities();
+
 				}	
 				if (player.x -16 <= FlxG.worldBounds.x) {
 					player.x -= 56;
 					scene.changeWorldBound("left");
 					player.smooth_move();
-					
-					/* if player is not moving anymore */
-						scene.instanciatesLiveEntities();
+									scene.instanciatesLiveEntities();
+
 				}
 		}
 		override public function destroy():void

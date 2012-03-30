@@ -20,7 +20,7 @@ package
 		{
 			
 			/* hero instance here */
-				player = new Char(32, 32);
+				player = new Char(2, 2);
 			/* map instance here */
 				scene = new MainMap;
 	
@@ -35,8 +35,8 @@ package
 			add(scene.mapcollision);  		add(scene.mFactory);
 			add(scene.iFactory);
 			// then we have the player related stuff
-			add(player); 					add(player.Sprite);
-			add(player.Attack);
+			add(player); 		add(player.Sprite);
+			add(player.Attack);	add(player.Border);	
 			
 			FlxG.mouse.show();
 		}
@@ -51,8 +51,15 @@ package
 				player.move(8, 8);
 				// this part of the code is related to what it seems to be the tilemap and static objects, like stones
 				FlxG.collide(player, scene.mapcollision);
-				FlxG.collide(player, scene.mFactory, damagePlayerOnly);
+				//FlxG.collide(player, scene.mFactory, damagePlayerOnly);
 				FlxG.collide(player, scene.iFactory);
+				FlxG.collide(scene.mFactory, scene.mapcollision);
+				FlxG.collide(scene.mFactory, scene.mFactory);
+				
+				/**
+				 * @todo Monster is not colliding with item correctly!! Test left border of green treasure
+				 */
+				FlxG.collide(scene.mFactory, scene.iFactory);
 				
 				/* here we have the collision check: of the attack animation with the monster */
 					for each (var monster:FlxExtendedSprite in scene.mFactory.members)
@@ -65,7 +72,7 @@ package
 				/* sweeps for all the items and checks whether the char is colliding with the bottom part of the item */
 					for each (var item:Item in scene.iFactory.members)
 					{
-						if (item.isTouching(FlxObject.DOWN)) {
+						if (FlxCollision.pixelPerfectCheck(player.Border, item)) {
 							item.setCollidingWithPlayer(true);
 						}
 						else {
@@ -97,29 +104,25 @@ package
 					player.y += 56;
 					scene.changeWorldBound("down");
 					player.smooth_move();
-									scene.instanciatesLiveEntities();
-
+					scene.instanciatesLiveEntities();
 				}	
 				if (player.y -16 <= FlxG.worldBounds.y) {
 					player.y -= 56;
 					scene.changeWorldBound("up");
 					player.smooth_move();
-									scene.instanciatesLiveEntities();
-
+					scene.instanciatesLiveEntities();
 				}
 				if (player.x +32 >= FlxG.worldBounds.x + scene.mapWidth) {
 					player.x += 56;
 					scene.changeWorldBound("right");
 					player.smooth_move();
-									scene.instanciatesLiveEntities();
-
+					scene.instanciatesLiveEntities();
 				}	
 				if (player.x -16 <= FlxG.worldBounds.x) {
 					player.x -= 56;
 					scene.changeWorldBound("left");
 					player.smooth_move();
-									scene.instanciatesLiveEntities();
-
+					scene.instanciatesLiveEntities();
 				}
 		}
 		override public function destroy():void
@@ -134,7 +137,7 @@ package
 		{
 			monster.kill();
 			player.hurt(10);
-			scene.mFactory.addMonster(0, 0, true)
+			scene.mFactory.addMonster(0, 0, true, 11)
 		}
 	}
 }

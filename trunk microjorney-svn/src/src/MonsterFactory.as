@@ -11,6 +11,7 @@ package
 	{
 		private var _x:int;
 		private var _y:int;
+		public static var sprite:Class;
 		
 		public function MonsterFactory()
 		{
@@ -22,8 +23,9 @@ package
 		 * @param	x x TILE coordinate of the new monster
 		 * @param	y y TILE coordinate of the new monster
 		 * @param	isRandom if true, ignores x and y param to randomize a position
+		 * @param	id identification number of the monster: 11 = RED, 12 = BLUE, 13 = GREEN, 14 = ORANGE
 		 */
-		public function addMonster(x:int, y:int, isRandom:Boolean = false):void
+		public function addMonster(x:int, y:int, isRandom:Boolean, id:Number):void
 		{
 			if (isRandom) 
 			{
@@ -32,8 +34,20 @@ package
 			}
 			
 			_x = x;			_y = y;
-			var tempMonster:Monster = new Monster(x, y, AssetsRegistry.monsterSheetPNG, 1, 1);
+			if (id == 11)
+				sprite = AssetsRegistry.redSubrosianPNG;
+			else if (id == 12)
+				sprite = AssetsRegistry.blueSubrosianPNG;
+			else if (id == 13)
+				sprite = AssetsRegistry.greenSubrosianPNG;
+			else if (id == 14)
+				sprite = AssetsRegistry.orangeSubrosianPNG;
+				
+				var tempMonster:Monster = new Monster(x, y, sprite, 1, 1);
+
 			add(tempMonster);
+			add(tempMonster.Sprite);
+			
 			/**
 			 * Guess if it does not pass through this line it means sprites are being recycled.
 			 */

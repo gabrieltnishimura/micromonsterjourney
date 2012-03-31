@@ -32,9 +32,9 @@ package
 			Sprite =  new FlxExtendedSprite(x * 16, y * 16);
 			this.visible = false;
 			
-			Sprite.loadGraphic(sprite, true, true, 16, 16);
+			Sprite.loadGraphic(sprite, true, true, 16, 16, false);
 			Sprite.addAnimation("walkUP", [0, 1, 0, 1], 7, false);		Sprite.addAnimation("walkLEFT", [2, 3, 2, 3], 7, false);
-			Sprite.addAnimation("walkRIGHT", [4, 5, 4, 5], 7, false);		Sprite.addAnimation("walkDOWN", [6, 7, 6, 7], 7, false);
+			Sprite.addAnimation("walkRIGHT", [4, 5, 4, 5], 7, false);	Sprite.addAnimation("walkDOWN", [6, 7, 6, 7], 7, false);
 	
 			Sprite.addAnimation("RED_dying", [0, 2, 5, 7], 15, false);
 			
@@ -128,8 +128,8 @@ package
 			randomSnap = FlxG.random();
 				if (randomSnap >= 0 && randomSnap < 1 / 2) 
 				{
-					snapX = 40;
-					snapY = 40;
+					snapX = 16;
+					snapY = 16;
 				}
 				if (randomSnap >= 1 / 2 && randomSnap < 2 / 2)
 				{

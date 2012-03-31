@@ -1,5 +1,6 @@
 package  
 {
+	import flash.text.engine.BreakOpportunity;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.FlxExtendedSprite;
 
@@ -12,10 +13,12 @@ package
 		private var _x:int;
 		private var _y:int;
 		public static var sprite:Class;
+		public var SpriteFactory:FlxGroup;
 		
 		public function MonsterFactory()
 		{
 			super();
+			SpriteFactory = new FlxGroup();
 		}
 		
 		/**
@@ -45,13 +48,14 @@ package
 				
 				var tempMonster:Monster = new Monster(x, y, sprite, 1, 1);
 
-			add(tempMonster);
-			add(tempMonster.Sprite);
+				
+			add(tempMonster);	
+			SpriteFactory.add(tempMonster.Sprite);
 			
 			/**
 			 * Guess if it does not pass through this line it means sprites are being recycled.
 			 */
-			trace("addMonster called, lenght of mArray:["+this.members.length+"] at ("+_x*16, _y*16+")");
+			trace("addMonster called, lenght of mArray:["+this.length+"] at ("+_x*16, _y*16+")");
 		}
 		
 		override public function update():void

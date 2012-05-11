@@ -25,7 +25,8 @@ package
 				player = new Char(2, 2);
 			/* map instance here */
 				scene = new MainMap;
-	
+				var music:FlxSound = new FlxSound();
+				music.loadEmbedded(AssetsRegistry.mp3, true, false);
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
 			
 			/*[DEBUG] watch player sprite coordinates*/
@@ -43,11 +44,16 @@ package
 			
 			// adding stuff to the screen. First we have all the level of the game (scene.*)
 			add(scene.map); 				add(scene.pixel);
-			add(scene.mapcollision);  		add(scene.mFactory);
+			/*add(scene.mapcollision); */ 		add(scene.mFactory);
 			add(scene.iFactory);			add(scene.mFactory.SpriteFactory);
 			// then we have the player related stuff
 			add(player); 		add(player.Sprite);
 			add(player.Attack);	add(player.Border);	
+			
+			add(scene.mapcollision); 
+			
+			//starts music
+			music.play();
 			
 			FlxG.mouse.show();
 		}
@@ -79,7 +85,7 @@ package
 				FlxG.collide(scene.mFactory, scene.iFactory);
 				
 				/* here we have the collision check: of the attack animation with the monster */
-					for each (var monster:FlxExtendedSprite in scene.mFactory.SpriteFactory.members)
+					for each (var monster:Monster in scene.mFactory.members)
 					{
 						if (FlxCollision.pixelPerfectCheck(player.Attack, monster))
 						{
@@ -89,13 +95,11 @@ package
 				/* sweeps for all the items and checks whether the char is colliding with the bottom part of the item */
 					for each (var item:Item in scene.iFactory.members)
 					{
-						if (player.facing == FlxObject.UP) {
-							if (FlxCollision.pixelPerfectCheck(player.Border, item)) {
-								item.setCollidingWithPlayer(true);
-							}
-							else {
+						if (FlxCollision.pixelPerfectCheck(player.Border, item) && player.facing == FlxObject.UP) 
+						{
+							item.setCollidingWithPlayer(true);
+						} else{
 								item.setCollidingWithPlayer(false);
-							}
 						}
 					}
 				// HERE is where the player sprite moves to the virtual sprite location

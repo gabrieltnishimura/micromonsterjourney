@@ -33,7 +33,7 @@ package
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
 			Sprite.addAnimation("stopDOWN", [1], 1, false);					Sprite.addAnimation("stopUP", [3], 1, false);
 			Sprite.addAnimation("stopLEFT", [5], 1, false);					Sprite.addAnimation("stopRIGHT", [7], 1, false);
-			
+			//this.immovable = true;
 			/* This is the hero attacking animation */
 			Attack = new FlxExtendedSprite();
 			Attack.loadGraphic(AssetsRegistry.heroSwingPNG, true, true, 31, 31, true);

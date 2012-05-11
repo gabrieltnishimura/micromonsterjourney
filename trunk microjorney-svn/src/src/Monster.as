@@ -1,5 +1,6 @@
 package  
 {
+	import flash.display.TriangleCulling;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.FlxExtendedSprite;
 
@@ -7,7 +8,7 @@ package
 	{
 		public var _life:Number;
 		public var Sprite:FlxExtendedSprite;
-		private var _isDead:Boolean;
+		public var _isDead:Boolean;
 		private var rnd:Number;
 		private var aiController:FlxTimer;
 		private var hasMoved:Boolean;
@@ -51,9 +52,19 @@ package
 		
 		override public function kill():void
 		{
-			Sprite.play("RED_dying");
+			if(!_isDead) {
+				Sprite.play("RED_dying");
+			}
 			_isDead = true;
+			if (Sprite.finished && _isDead)
+			{
+				this.Sprite.visible = false;
+				this.visible = false;
+					
+				this.kill();
+			}
 		}
+		
 		
 		override public function update():void
 		{
@@ -172,6 +183,43 @@ package
 				Sprite.y = this.y;
 			}
 		}
-	}
-
-}
+		
+		public function gotHitByPlayer(player: FlxSprite):void
+		{
+			var distance:Number;
+			var quadrant:String;
+			var accelFactorX:Number;
+			var accelFactorY:Number;
+			
+			if (player.x >= this.x && player.y >= this.y) // first quadrant
+			{
+				quadrant = "first";
+				accelFactorX = player.x - this.x;
+				accelFactorY = player.y - this.y;
+				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
+			}
+			if (player.x <= this.x && player.y >= this.y) // second quadrant
+			{
+				quadrant = "second";
+				accelFactorX = this.x - player.x;
+				accelFactorY = player.y - this.y;
+				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
+			}			
+			if (player.x <= this.x && player.y <= this.y) // third quadrant
+			{
+				quadrant = "third";
+				accelFactorX = this.x - player.x;
+				accelFactorY = this.y - player.y;
+				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
+			}			
+			if (player.x >= this.x && player.y <= this.y) // forth quadrant
+			{
+				quadrant = "forth";
+				accelFactorX = player.x - this.x;
+				accelFactorY = this.y - player.y;
+				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
+			}
+			
+		} // function gothitbyplayer
+	} // Class monster
+} //package

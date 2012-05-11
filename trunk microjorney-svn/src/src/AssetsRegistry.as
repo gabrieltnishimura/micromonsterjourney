@@ -26,6 +26,9 @@ package
 		[Embed(source = "assets/monsters/ORANGEsubrosian_8f_16x16_UP_LEFT_RIGHT_DOWN.png")] public static var orangeSubrosianPNG:Class;
 		[Embed(source = "assets/monsters/REDsubrosian_8f_16x16_UP_LEFT_RIGHT_DOWN.png")] public static var redSubrosianPNG:Class;
 		
+		// Music
+		[Embed(source = "assets/music/loop1.mp3")] public static var mp3:Class;
+		
 		public function AssetsRegistry() 
 		{
 			

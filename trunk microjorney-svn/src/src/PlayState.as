@@ -48,10 +48,12 @@ package
 			add(scene.map); 				add(scene.pixel);
 			add(scene.mFactory); //monster factory
 			add(scene.mFactory.SpriteFactory); //collidable monster factory
+			add(scene.mFactory.CenterPixelFactory);
 			add(scene.iFactory);
 			// then we have the player related stuff
 			add(player); 		add(player.Sprite);
 			add(player.Attack);	add(player.Border);	
+			add(player.CenterPixel);
 			
 			//notice that the collision should be added last
 			add(scene.mapcollision); 
@@ -90,45 +92,50 @@ package
 				FlxG.collide(scene.mFactory, scene.iFactory);
 				
 				/* here we have the collision check: of the player with the monster */
+				/* here we have the collision check: of the attack animation with the monster */
 				for each (var monster:Monster in scene.mFactory.members)
 				{
 					if (FlxCollision.pixelPerfectCheck(player, monster))
 					{
-						if (player.x >= monster.x && player.y <= monster.y + 15 && player.y >= monster.y - 15) // Right Side
-						{
-							trace("Right Side");
-							player.x += 16;
-							player.smooth_move();
+						if(player.CenterPixel.x > monster.CenterPixel.x) {
+							if (player.CenterPixel.y <= monster.CenterPixel.y + 15 &&
+								player.CenterPixel.y >= monster.CenterPixel.y - 15) // Right Side
+							{
+								trace("Right Side");
+								player.x += 16;
+							}	
+						} else if(player.CenterPixel.x < monster.x) {
+							if (player.CenterPixel.y <= monster.CenterPixel.y + 15 &&
+								player.CenterPixel.y >= monster.CenterPixel.y - 15) // Left Side
+							{
+								trace("Left Side");
+								player.x -= 16;
+							}
+						} else if(player.CenterPixel.y > monster.y) {
+							if (player.CenterPixel.x <= monster.CenterPixel.x + 15 &&
+								player.CenterPixel.x >= monster.CenterPixel.x - 15) // Top Side
+							{
+								trace("Top Side");
+								player.y += 16;
+							}
+						} else if(player.CenterPixel.y < monster.CenterPixel.y) {
+							if (player.CenterPixel.x <= monster.CenterPixel.x + 15 && 
+								player.CenterPixel.x >= monster.CenterPixel.x - 15) // Top Side
+							{
+								trace("Bottom Side");
+								player.y -= 16;
+							}
 						}
-						else if (player.x <= monster.x && player.y <= monster.y + 15 && player.y >= monster.y - 15) // Left Side
-						{
-							trace("Left Side");
-							player.x -= 16;
-							player.smooth_move();
-						}
-						else if (player.y >= monster.y && player.x <= monster.x + 15 && player.x >= monster.x - 15) // Bottom Side
-						{
-							trace("Top Side");
-							player.y += 16;
-							player.smooth_move();
-						}
-						else if (player.y <= monster.y && player.x <= monster.x + 15 && player.x >= monster.x - 15) // Top Side
-						{
-							trace("Bottom Side");
-							player.y -= 16;
-							player.smooth_move();
-						}
+						FlxG.collide(player, scene.mapcollision);
+					}
+					if (FlxCollision.pixelPerfectCheck(player.Attack, monster) && player.Attack.exists == true)
+					{
+						monster.gotHitByPlayer(player);
+						//monster.Sprite.kill();
+						monster.kill();
 					}
 				}
-				/* here we have the collision check: of the attack animation with the monster */
-				for each (var monster:Monster in scene.mFactory.members)
-				{
-						if (FlxCollision.pixelPerfectCheck(player.Attack, monster) && player.Attack.exists == true)
-						{
-							monster.gotHitByPlayer(player);
-							monster.kill();
-						}
-				}
+				
 				/* sweeps for all the items and checks whether the char is colliding with the bottom part of the item */
 					for each (var item:Item in scene.iFactory.members)
 					{

@@ -14,11 +14,13 @@ package
 		private var _y:int;
 		public static var sprite:Class;
 		public var SpriteFactory:FlxGroup;
+		public var CenterPixelFactory:FlxGroup;
 		
 		public function MonsterFactory()
 		{
 			super();
 			SpriteFactory = new FlxGroup();
+			CenterPixelFactory = new FlxGroup();
 		}
 		
 		/**
@@ -47,10 +49,10 @@ package
 				sprite = AssetsRegistry.orangeSubrosianPNG;
 				
 				var tempMonster:Monster = new Monster(x, y, sprite, 1, 1);
-
 				
-			add(tempMonster);	
+			add(tempMonster);
 			SpriteFactory.add(tempMonster.Sprite);
+			CenterPixelFactory.add(tempMonster.CenterPixel);
 			
 			/**
 			 * Guess if it does not pass through this line it means sprites are being recycled.

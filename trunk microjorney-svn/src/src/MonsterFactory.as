@@ -60,6 +60,11 @@ package
 		
 		override public function update():void
 		{
+			for each(var monster:Monster in this.members) {
+				if (monster._isDead) {
+					
+				}
+			}
 			super.update();
 		}
 	}

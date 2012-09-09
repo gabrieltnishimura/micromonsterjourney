@@ -23,14 +23,16 @@ package
 			
 			/* hero instance here */
 				player = new Char(2, 2);
+				player.elasticity = 0.8;
 			/* map instance here */
 				scene = new MainMap;
+			/* music instance here */
 				var music:FlxSound = new FlxSound();
 				music.loadEmbedded(AssetsRegistry.mp3, true, false);
 			//	Bring up the Flixel debugger if you'd like to watch these values in real-time
 			
 			/*[DEBUG] watch player sprite coordinates*/
-			//FlxG.watch(player.Sprite, "x", "Player X coord");			FlxG.watch(player.Sprite, "y", "Player Y coord");
+			FlxG.watch(player.Sprite, "x", "Player X coord");			FlxG.watch(player.Sprite, "y", "Player Y coord");
 			
 			/*[DEBUG] watch pixel coordinates and velocity*/
 			//FlxG.watch(scene.pixel, "x", "Pixel X coord");				FlxG.watch(scene.pixel, "y", "Pixel Y coord");
@@ -44,12 +46,14 @@ package
 			
 			// adding stuff to the screen. First we have all the level of the game (scene.*)
 			add(scene.map); 				add(scene.pixel);
-			/*add(scene.mapcollision); */ 		add(scene.mFactory);
-			add(scene.iFactory);			add(scene.mFactory.SpriteFactory);
+			add(scene.mFactory); //monster factory
+			add(scene.mFactory.SpriteFactory); //collidable monster factory
+			add(scene.iFactory);
 			// then we have the player related stuff
 			add(player); 		add(player.Sprite);
 			add(player.Attack);	add(player.Border);	
 			
+			//notice that the collision should be added last
 			add(scene.mapcollision); 
 			
 			//starts music
@@ -77,21 +81,54 @@ package
 				//FlxG.collide(player, scene.mFactory, damagePlayerOnly);
 				FlxG.collide(player, scene.iFactory);
 				FlxG.collide(scene.mFactory, scene.mFactory);
-				FlxG.collide(scene.mFactory.SpriteFactory, player);
+				//FlxG.collide(scene.mFactory.SpriteFactory, player);
+				//FlxG.collide(scene.mFactory, player);
 				
 				/**
 				 * @todo Monster is not colliding with item correctly!! Test left border of green treasure
 				 */
 				FlxG.collide(scene.mFactory, scene.iFactory);
 				
-				/* here we have the collision check: of the attack animation with the monster */
-					for each (var monster:Monster in scene.mFactory.members)
+				/* here we have the collision check: of the player with the monster */
+				for each (var monster:Monster in scene.mFactory.members)
+				{
+					if (FlxCollision.pixelPerfectCheck(player, monster))
 					{
-						if (FlxCollision.pixelPerfectCheck(player.Attack, monster))
+						if (player.x >= monster.x && player.y <= monster.y + 15 && player.y >= monster.y - 15) // Right Side
 						{
-							monster.kill();
+							trace("Right Side");
+							player.x += 16;
+							player.smooth_move();
+						}
+						else if (player.x <= monster.x && player.y <= monster.y + 15 && player.y >= monster.y - 15) // Left Side
+						{
+							trace("Left Side");
+							player.x -= 16;
+							player.smooth_move();
+						}
+						else if (player.y >= monster.y && player.x <= monster.x + 15 && player.x >= monster.x - 15) // Bottom Side
+						{
+							trace("Top Side");
+							player.y += 16;
+							player.smooth_move();
+						}
+						else if (player.y <= monster.y && player.x <= monster.x + 15 && player.x >= monster.x - 15) // Top Side
+						{
+							trace("Bottom Side");
+							player.y -= 16;
+							player.smooth_move();
 						}
 					}
+				}
+				/* here we have the collision check: of the attack animation with the monster */
+				for each (var monster:Monster in scene.mFactory.members)
+				{
+						if (FlxCollision.pixelPerfectCheck(player.Attack, monster) && player.Attack.exists == true)
+						{
+							monster.gotHitByPlayer(player);
+							monster.kill();
+						}
+				}
 				/* sweeps for all the items and checks whether the char is colliding with the bottom part of the item */
 					for each (var item:Item in scene.iFactory.members)
 					{

@@ -31,7 +31,9 @@ package
 		{
 			super(x * 16, y * 16);
 			Sprite =  new FlxExtendedSprite(x * 16, y * 16);
+			this.Sprite.elasticity = 0.5;
 			this.visible = false;
+			this.elasticity = 0.5;
 			
 			Sprite.loadGraphic(sprite, true, true, 16, 16, false);
 			Sprite.addAnimation("walkUP", [0, 1, 0, 1], 7, false);		Sprite.addAnimation("walkLEFT", [2, 3, 2, 3], 7, false);
@@ -43,7 +45,7 @@ package
 			_isDead = isDead;
 			
 			aiController = new FlxTimer();
-			aiController.start(3, 0, onTimer);
+			aiController.start(5, 0, onTimer);
 			hasMoved = false;
 			
 			deltaX = this.x;
@@ -56,12 +58,13 @@ package
 				Sprite.play("RED_dying");
 			}
 			_isDead = true;
+			
 			if (Sprite.finished && _isDead)
 			{
 				this.Sprite.visible = false;
 				this.visible = false;
-					
-				this.kill();
+
+				super.kill();
 			}
 		}
 		
@@ -80,12 +83,12 @@ package
 			aiController.update();
 			
 			if (Sprite.finished && _isDead == true)
-			{
+		    {
 				Sprite.kill();
 				//aiController.destroy();
 				super.kill();
 				trace("Monster died");
-			}
+		    }
 			/* AI movement! */
 			if (!hasMoved)
 			{
@@ -187,39 +190,17 @@ package
 		public function gotHitByPlayer(player: FlxSprite):void
 		{
 			var distance:Number;
-			var quadrant:String;
-			var accelFactorX:Number;
-			var accelFactorY:Number;
-			
-			if (player.x >= this.x && player.y >= this.y) // first quadrant
-			{
-				quadrant = "first";
-				accelFactorX = player.x - this.x;
-				accelFactorY = player.y - this.y;
-				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
-			}
-			if (player.x <= this.x && player.y >= this.y) // second quadrant
-			{
-				quadrant = "second";
-				accelFactorX = this.x - player.x;
-				accelFactorY = player.y - this.y;
-				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
-			}			
-			if (player.x <= this.x && player.y <= this.y) // third quadrant
-			{
-				quadrant = "third";
-				accelFactorX = this.x - player.x;
-				accelFactorY = this.y - player.y;
-				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
-			}			
-			if (player.x >= this.x && player.y <= this.y) // forth quadrant
-			{
-				quadrant = "forth";
-				accelFactorX = player.x - this.x;
-				accelFactorY = this.y - player.y;
-				distance = Math.sqrt(accelFactorX * accelFactorX + accelFactorY * accelFactorY);
-			}
-			
+			var quadrant:int;
+			var moveFactorX:Number;
+			var moveFactorY:Number;
+
+			moveFactorX = player.x - this.x;
+			moveFactorY = player.y - this.y;
+			distance = Math.sqrt(moveFactorX * moveFactorX + moveFactorY * moveFactorY);
+			moveFactorX /= distance;
+			moveFactorY /= distance;
+			this.x -= moveFactorX * 20;
+			this.y -= moveFactorY * 20;
 		} // function gothitbyplayer
 	} // Class monster
 } //package

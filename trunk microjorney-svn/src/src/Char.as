@@ -10,6 +10,7 @@ package
 	{
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
+		public var CollisionSprite:FlxExtendedSprite;
 		public var Attack:FlxExtendedSprite;
 		public var Border:FlxExtendedSprite;
 		public var leftOrRight:String = "left";
@@ -22,9 +23,15 @@ package
 		 */
 		public function Char(inicX:int = 0, inicY:int = 0)
 		{	
-			super(inicX * 16, inicY * 16);
+			super(inicX * 16 + 1, inicY * 16 + 1);
 			this.health = 100;
 			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
+			
+			
+			CollisionSprite = new FlxExtendedSprite(inicX * 16 + 1, inicY * 16 + 1);
+			CollisionSprite.visible = false;
+			CollisionSprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, false, 14, 14, false);
+			trace(CollisionSprite.x + " " + CollisionSprite.y)
 			
 			/* This is the visible part of the hero: it has 4 walking animations */
 			Sprite =  new FlxExtendedSprite(inicX * 16, inicY * 16);

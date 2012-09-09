@@ -10,7 +10,7 @@ package
 	{
 		private var speed:Number;
 		public var Sprite:FlxExtendedSprite;
-		public var CollisionSprite:FlxExtendedSprite;
+		public var CenterPixel:FlxSprite;
 		public var Attack:FlxExtendedSprite;
 		public var Border:FlxExtendedSprite;
 		public var leftOrRight:String = "left";
@@ -23,18 +23,17 @@ package
 		 */
 		public function Char(inicX:int = 0, inicY:int = 0)
 		{	
-			super(inicX * 16 + 1, inicY * 16 + 1);
+			super(inicX * 16, inicY * 16);
 			this.health = 100;
 			this.visible = false; // the sprite of character is invisible, as it is only necessary to snap.
 			
-			
-			CollisionSprite = new FlxExtendedSprite(inicX * 16 + 1, inicY * 16 + 1);
-			CollisionSprite.visible = false;
-			CollisionSprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, false, 14, 14, false);
-			trace(CollisionSprite.x + " " + CollisionSprite.y)
+			CenterPixel = new FlxSprite(center().x, center().y);
+			CenterPixel.makeGraphic(1, 1, 0xFFFFFFFF);
+			//CenterPixel.visible = true;
 			
 			/* This is the visible part of the hero: it has 4 walking animations */
 			Sprite =  new FlxExtendedSprite(inicX * 16, inicY * 16);
+			//Sprite.visible = false;
 			Sprite.loadGraphic(AssetsRegistry.heroSheetPNG, true, false, 16, 16, false);
 			Sprite.addAnimation("walkDOWN", [0, 1], 7, false);  			Sprite.addAnimation("walkUP", [2, 3], 7, false);
 			Sprite.addAnimation("walkLEFT", [4, 5], 7, false);  			Sprite.addAnimation("walkRIGHT", [6, 7], 7, false);
@@ -53,6 +52,11 @@ package
 			Border = new FlxExtendedSprite();
 			Border.makeGraphic(16, 1, 0xff00ffff, false);
 			Border.visible = false;
+		}
+		
+		public function center():FlxPoint
+		{
+			return new FlxPoint(this.x + this.width / 2, this.y + this.height / 2);
 		}
 		
 		override public function kill():void
@@ -209,6 +213,8 @@ package
 		 
 			this.x = deltaX;
 			this.y = deltaY;
+			CenterPixel.x = deltaX + width/2;
+			CenterPixel.y = deltaY + height/2;
 			Border.x = deltaX;
 			Border.y = deltaY-1;
 		}

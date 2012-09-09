@@ -8,6 +8,7 @@ package
 	{
 		public var _life:Number;
 		public var Sprite:FlxExtendedSprite;
+		public var CenterPixel:FlxSprite;
 		public var _isDead:Boolean;
 		private var rnd:Number;
 		private var aiController:FlxTimer;
@@ -35,11 +36,15 @@ package
 			this.visible = false;
 			this.elasticity = 0.5;
 			
+			CenterPixel = new FlxSprite(center().x, center().y);
+			CenterPixel.makeGraphic(1, 1, 0xFFFFFFFF);
+			CenterPixel.visible = false;
+			
 			Sprite.loadGraphic(sprite, true, true, 16, 16, false);
 			Sprite.addAnimation("walkUP", [0, 1, 0, 1], 7, false);		Sprite.addAnimation("walkLEFT", [2, 3, 2, 3], 7, false);
 			Sprite.addAnimation("walkRIGHT", [4, 5, 4, 5], 7, false);	Sprite.addAnimation("walkDOWN", [6, 7, 6, 7], 7, false);
-	
 			Sprite.addAnimation("RED_dying", [0, 2, 5, 7], 15, false);
+			//Sprite.visible = false;
 			
 			_life = life;
 			_isDead = isDead;
@@ -51,6 +56,12 @@ package
 			deltaX = this.x;
 			deltaY = this.y;
 		}
+		
+		public function center():FlxPoint
+		{
+			return new FlxPoint(this.x + this.width / 2, this.y + this.height / 2);
+		}
+		
 		
 		override public function kill():void
 		{
@@ -82,10 +93,9 @@ package
 			super.update();
 			aiController.update();
 			
-			if (Sprite.finished && _isDead == true)
+			if (_isDead && Sprite.finished)
 		    {
 				Sprite.kill();
-				//aiController.destroy();
 				super.kill();
 				trace("Monster died");
 		    }
@@ -130,6 +140,8 @@ package
 				
 			this.x = deltaX;
 			this.y = deltaY;
+			CenterPixel.x = deltaX + width/2;
+			CenterPixel.y = deltaY + height/2;
 			}
 			smooth_move();			
 		}
@@ -193,7 +205,8 @@ package
 			var quadrant:int;
 			var moveFactorX:Number;
 			var moveFactorY:Number;
-
+			
+			//hasMoved = true; //need to stop its movement when attacked
 			moveFactorX = player.x - this.x;
 			moveFactorY = player.y - this.y;
 			distance = Math.sqrt(moveFactorX * moveFactorX + moveFactorY * moveFactorY);
